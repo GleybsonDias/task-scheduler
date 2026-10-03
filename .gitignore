@@ -1,0 +1,32 @@
+# Dependências
+node_modules/
+*/node_modules/
+
+# Variáveis de ambiente e segredos
+.env
+.env.*
+!.env.example
+*.env
+
+# Compilação e builds
+dist/
+www/
+out/
+.angular/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ficheiros do sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configurações locais de IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
