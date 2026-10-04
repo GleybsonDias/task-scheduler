@@ -1,7 +1,12 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "./prisma.js";
-import { RegisterInput, LoginInput } from "../schemas/auth.schema.js";
+import {
+  RegisterInput,
+  LoginInput,
+  UpdateProfileInput,
+  ChangePasswordInput,
+} from "../schemas/auth.schema.js";
 
 function getJwtSecret(): string {
   const secret = process.env.JWT_SECRET;
@@ -71,4 +76,64 @@ export async function loginUser(data: LoginInput) {
     },
     token,
   };
+}
+
+export async function updateProfile(userId: string, data: UpdateProfileInput) {
+  if (data.email) {
+    const existing = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existing && existing.id !== userId) {
+      throw new Error(
+        "Este endereço de e-mail já está a ser utilizado por outra conta.",
+      );
+    }
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      name: data.name,
+      email: data.email,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      updatedAt: true,
+    },
+  });
+
+  return updatedUser;
+}
+
+export async function changePassword(
+  userId: string,
+  data: ChangePasswordInput,
+) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw new Error("Utilizador não encontrado.");
+  }
+
+  const isCurrentValid = await bcrypt.compare(
+    data.currentPassword,
+    user.passwordHash,
+  );
+  if (!isCurrentValid) {
+    throw new Error("A palavra-passe atual está incorreta.");
+  }
+
+  const newHash = await bcrypt.hash(data.newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { passwordHash: newHash },
+  });
+
+  return { message: "Palavra-passe alterada com sucesso." };
 }
