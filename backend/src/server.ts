@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { authRoutes } from "./routes/auth.routes.js";
+import { taskRoutes } from "./routes/task.routes.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Rotas da aplicação
 app.use("/auth", authRoutes);
+app.use("/tasks", taskRoutes);
 
 app.get("/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });

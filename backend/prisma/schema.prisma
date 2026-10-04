@@ -46,7 +46,7 @@ model Task {
   id          String       @id @default(uuid())
   title       String
   description String?
-  dueDate     DateTime
+  dueDate     DateTime?
   status      TaskStatus   @default(PENDING)
   priority    TaskPriority @default(MEDIUM)
   userId      String
