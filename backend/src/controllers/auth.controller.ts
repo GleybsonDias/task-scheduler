@@ -34,3 +34,10 @@ export async function login(req: Request, res: Response) {
     return res.status(401).json({ message: error.message });
   }
 }
+
+export async function getProfile(req: Request, res: Response) {
+  return res.status(200).json({
+    message: "Perfil autenticado com sucesso",
+    user: req.user,
+  });
+}
