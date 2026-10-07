@@ -67,15 +67,31 @@ export class LoginPage {
     this.showPassword = !this.showPassword;
   }
 
+  async onForgotPassword() {
+    const toast = await this.toastCtrl.create({
+      message: 'A recuperação de senha estará disponível em breve.',
+      duration: 3000,
+      color: 'medium',
+      position: 'bottom',
+    });
+    await toast.present();
+  }
+
   async onSubmit() {
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid || this.isLoading) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
     this.isLoading = true;
 
-    this.authService.login(this.loginForm.value).subscribe({
+    // Higienização dos dados de entrada
+    const payload = {
+      email: this.loginForm.value.email.trim().toLowerCase(),
+      password: this.loginForm.value.password,
+    };
+
+    this.authService.login(payload).subscribe({
       next: () => {
         this.isLoading = false;
         this.router.navigate(['/home']);

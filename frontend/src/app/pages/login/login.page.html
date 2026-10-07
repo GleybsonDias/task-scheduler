@@ -69,6 +69,7 @@
             type="email"
             formControlName="email"
             placeholder="seu@email.com"
+            [disabled]="isLoading"
           />
         </div>
         @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid)
@@ -93,11 +94,13 @@
             [type]="showPassword ? 'text' : 'password'"
             formControlName="password"
             placeholder="Digite sua senha"
+            [disabled]="isLoading"
           />
           <button
             type="button"
             class="eye-btn"
             (click)="togglePasswordVisibility()"
+            [disabled]="isLoading"
           >
             <ion-icon
               [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -116,7 +119,13 @@
 
       <!-- Esqueci minha senha -->
       <div class="forgot-wrapper">
-        <a href="javascript:void(0)" class="forgot-link">Esqueci minha senha</a>
+        <button
+          type="button"
+          class="forgot-link-btn"
+          (click)="onForgotPassword()"
+        >
+          Esqueci minha senha
+        </button>
       </div>
 
       <!-- Botão Entrar -->
@@ -135,7 +144,12 @@
       </div>
 
       <!-- Botão Criar conta -->
-      <button type="button" class="btn-secondary" routerLink="/register">
+      <button
+        type="button"
+        class="btn-secondary"
+        routerLink="/register"
+        [disabled]="isLoading"
+      >
         <ion-icon name="person-outline"></ion-icon>
         <span>Criar conta</span>
       </button>
