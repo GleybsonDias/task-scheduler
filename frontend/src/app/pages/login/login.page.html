@@ -1,0 +1,158 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="page-wrapper">
+    <!-- Cabeçalho com Logo -->
+    <header class="header-section">
+      <div class="logo-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect
+            x="6"
+            y="8"
+            width="36"
+            height="34"
+            rx="8"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            fill="#ffffff"
+          />
+          <line
+            x1="15"
+            y1="4"
+            x2="15"
+            y2="10"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="33"
+            y1="4"
+            x2="33"
+            y2="10"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="6"
+            y1="16"
+            x2="42"
+            y2="16"
+            stroke="#1d5ab9"
+            stroke-width="3"
+          />
+          <path
+            d="M16 28L22 34L32 23"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <h1 class="app-title">Taskly</h1>
+      <h2 class="welcome-title">Bem-vindo de volta!</h2>
+      <p class="subtitle">Organize seu dia com<br />mais facilidade.</p>
+    </header>
+
+    <!-- Formulário -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-section">
+      <!-- Campo E-mail -->
+      <div class="input-group">
+        <label class="input-label">E-mail</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+        >
+          <ion-icon name="mail-outline" class="leading-icon"></ion-icon>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+          />
+        </div>
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid)
+        {
+        <span class="error-text">
+          @if (loginForm.get('email')?.hasError('required')) { O e-mail é
+          obrigatório. } @if (loginForm.get('email')?.hasError('email')) {
+          Digite um e-mail válido. }
+        </span>
+        }
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="input-group">
+        <label class="input-label">Senha</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        >
+          <ion-icon name="lock-closed-outline" class="leading-icon"></ion-icon>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Digite sua senha"
+          />
+          <button
+            type="button"
+            class="eye-btn"
+            (click)="togglePasswordVisibility()"
+          >
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            ></ion-icon>
+          </button>
+        </div>
+        @if (loginForm.get('password')?.touched &&
+        loginForm.get('password')?.invalid) {
+        <span class="error-text">
+          @if (loginForm.get('password')?.hasError('required')) { A senha é
+          obrigatória. } @if (loginForm.get('password')?.hasError('minlength'))
+          { Mínimo de 6 caracteres. }
+        </span>
+        }
+      </div>
+
+      <!-- Esqueci minha senha -->
+      <div class="forgot-wrapper">
+        <a href="javascript:void(0)" class="forgot-link">Esqueci minha senha</a>
+      </div>
+
+      <!-- Botão Entrar -->
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        @if (isLoading) {
+        <ion-spinner name="crescent" color="light"></ion-spinner>
+        } @else {
+        <span>Entrar</span>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+        }
+      </button>
+
+      <!-- Divisor "ou" -->
+      <div class="divider">
+        <span>ou</span>
+      </div>
+
+      <!-- Botão Criar conta -->
+      <button type="button" class="btn-secondary" routerLink="/register">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Criar conta</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Ondas Decorativas Inferiores -->
+  <div class="waves-container">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path
+        d="M0.00,49.98 C160.00,140.00 340.00,-20.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+        class="wave-back"
+      ></path>
+      <path
+        d="M0.00,75.00 C180.00,-10.00 320.00,130.00 500.00,60.00 L500.00,150.00 L0.00,150.00 Z"
+        class="wave-front"
+      ></path>
+    </svg>
+  </div>
+</ion-content>

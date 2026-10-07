@@ -1,13 +1,27 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+import { noAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./pages/splash/splash.page').then((m) => m.SplashPage),
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.page').then((m) => m.LoginPage),
+    canActivate: [noAuthGuard],
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
