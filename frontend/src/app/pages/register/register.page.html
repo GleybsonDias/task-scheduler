@@ -1,0 +1,233 @@
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="page-wrapper">
+    <!-- Cabeçalho com Logo -->
+    <header class="header-section">
+      <div class="logo-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect
+            x="6"
+            y="8"
+            width="36"
+            height="34"
+            rx="8"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            fill="#ffffff"
+          />
+          <line
+            x1="15"
+            y1="4"
+            x2="15"
+            y2="10"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="33"
+            y1="4"
+            x2="33"
+            y2="10"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="6"
+            y1="16"
+            x2="42"
+            y2="16"
+            stroke="#1d5ab9"
+            stroke-width="3"
+          />
+          <path
+            d="M16 28L22 34L32 23"
+            stroke="#1d5ab9"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <h1 class="app-title">Taskly</h1>
+      <h2 class="welcome-title">Criar sua conta</h2>
+      <p class="subtitle">
+        Comece a organizar seu dia<br />com mais facilidade.
+      </p>
+    </header>
+
+    <!-- Formulário -->
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="form-section"
+    >
+      <!-- Campo Nome -->
+      <div class="input-group">
+        <label class="input-label">Nome</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid"
+        >
+          <ion-icon name="person-outline" class="leading-icon"></ion-icon>
+          <input
+            type="text"
+            formControlName="firstName"
+            placeholder="Seu nome"
+            [disabled]="isLoading"
+          />
+        </div>
+        @if (registerForm.get('firstName')?.touched &&
+        registerForm.get('firstName')?.invalid) {
+        <span class="error-text">O nome é obrigatório.</span>
+        }
+      </div>
+
+      <!-- Campo Sobrenome -->
+      <div class="input-group">
+        <label class="input-label">Sobrenome</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid"
+        >
+          <ion-icon name="person-outline" class="leading-icon"></ion-icon>
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Seu sobrenome"
+            [disabled]="isLoading"
+          />
+        </div>
+        @if (registerForm.get('lastName')?.touched &&
+        registerForm.get('lastName')?.invalid) {
+        <span class="error-text">O sobrenome é obrigatório.</span>
+        }
+      </div>
+
+      <!-- Campo E-mail -->
+      <div class="input-group">
+        <label class="input-label">E-mail</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+        >
+          <ion-icon name="mail-outline" class="leading-icon"></ion-icon>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+            [disabled]="isLoading"
+          />
+        </div>
+        @if (registerForm.get('email')?.touched &&
+        registerForm.get('email')?.invalid) {
+        <span class="error-text">
+          @if (registerForm.get('email')?.hasError('required')) { O e-mail é
+          obrigatório. } @if (registerForm.get('email')?.hasError('email')) {
+          Digite um e-mail válido. }
+        </span>
+        }
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="input-group">
+        <label class="input-label">Senha</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+        >
+          <ion-icon name="lock-closed-outline" class="leading-icon"></ion-icon>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            [disabled]="isLoading"
+          />
+          <button
+            type="button"
+            class="eye-btn"
+            (click)="togglePasswordVisibility()"
+            [disabled]="isLoading"
+          >
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            ></ion-icon>
+          </button>
+        </div>
+        @if (registerForm.get('password')?.touched &&
+        registerForm.get('password')?.invalid) {
+        <span class="error-text">
+          @if (registerForm.get('password')?.hasError('required')) { A senha é
+          obrigatória. } @if
+          (registerForm.get('password')?.hasError('minlength')) { Mínimo de 6
+          caracteres. }
+        </span>
+        }
+      </div>
+
+      <!-- Campo Confirmar Senha -->
+      <div class="input-group">
+        <label class="input-label">Confirmar senha</label>
+        <div
+          class="custom-input-box"
+          [class.input-error]="(registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid) || (registerForm.hasError('passwordsMismatch') && registerForm.get('confirmPassword')?.touched)"
+        >
+          <ion-icon name="lock-closed-outline" class="leading-icon"></ion-icon>
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Digite sua senha novamente"
+            [disabled]="isLoading"
+          />
+          <button
+            type="button"
+            class="eye-btn"
+            (click)="toggleConfirmPasswordVisibility()"
+            [disabled]="isLoading"
+          >
+            <ion-icon
+              [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+            ></ion-icon>
+          </button>
+        </div>
+        @if (registerForm.get('confirmPassword')?.touched) { @if
+        (registerForm.get('confirmPassword')?.hasError('required')) {
+        <span class="error-text">Confirme sua senha.</span>
+        } @else if (registerForm.hasError('passwordsMismatch')) {
+        <span class="error-text">As senhas não coincidem.</span>
+        } }
+      </div>
+
+      <!-- Botão Criar Conta -->
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        @if (isLoading) {
+        <ion-spinner name="crescent" color="light"></ion-spinner>
+        } @else {
+        <span>Criar conta</span>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+        }
+      </button>
+
+      <!-- Rodapé com Link Entrar -->
+      <div class="footer-section">
+        <p class="footer-text">Já possui uma conta?</p>
+        <a routerLink="/login" class="login-link">Entrar</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Ondas Decorativas Inferiores -->
+  <div class="waves-container">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path
+        d="M0.00,49.98 C160.00,140.00 340.00,-20.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+        class="wave-back"
+      ></path>
+      <path
+        d="M0.00,75.00 C180.00,-10.00 320.00,130.00 500.00,60.00 L500.00,150.00 L0.00,150.00 Z"
+        class="wave-front"
+      ></path>
+    </svg>
+  </div>
+</ion-content>

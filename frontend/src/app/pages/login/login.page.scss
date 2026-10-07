@@ -85,6 +85,10 @@
       border-color: #1d5ab9;
       background: #ffffff;
       box-shadow: 0 0 0 3px rgba(29, 90, 185, 0.12);
+
+      input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+      }
     }
 
     &.input-error {
@@ -107,6 +111,14 @@
 
       &::placeholder {
         color: #97a0af;
+      }
+
+      /* Sobrescreve o autofill especificamente com o tom do container */
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px #eef2f6 inset !important;
+        -webkit-text-fill-color: #172b4d !important;
       }
     }
 
