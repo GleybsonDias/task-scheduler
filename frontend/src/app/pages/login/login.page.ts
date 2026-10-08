@@ -94,7 +94,7 @@ export class LoginPage {
     this.authService.login(payload).subscribe({
       next: () => {
         this.isLoading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tabs/home']);
       },
       error: async (err) => {
         this.isLoading = false;

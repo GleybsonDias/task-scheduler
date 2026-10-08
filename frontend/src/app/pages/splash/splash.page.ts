@@ -19,7 +19,7 @@ export class SplashPage implements OnInit {
     // Aguarda 2 segundos para dar tempo de exibir a animação/marca
     setTimeout(() => {
       if (this.authService.isAuthenticated()) {
-        this.router.navigateByUrl('/home', { replaceUrl: true });
+        this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
       } else {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }

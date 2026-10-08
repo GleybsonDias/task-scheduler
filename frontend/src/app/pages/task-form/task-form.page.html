@@ -1,0 +1,230 @@
+<ion-content [fullscreen]="true" class="task-form-content">
+  <div class="page-wrapper">
+    <!-- Page Title -->
+    <div class="page-header">
+      <h1 class="main-title">Nova tarefa</h1>
+      <p class="subtitle">Preencha as informações para adicionar sua tarefa.</p>
+    </div>
+
+    <!-- Form Body -->
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="form-body">
+      <!-- Título -->
+      <div
+        class="field-card"
+        [class.field-error]="taskForm.get('title')?.touched && taskForm.get('title')?.invalid"
+      >
+        <div class="field-icon">
+          <ion-icon name="text-outline"></ion-icon>
+        </div>
+        <div class="field-input-box">
+          <label class="field-label">Título *</label>
+          <ion-input
+            type="text"
+            formControlName="title"
+            placeholder="Digita o título da tarefa"
+            class="custom-ion-input"
+          ></ion-input>
+        </div>
+      </div>
+      @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+      <span class="error-text"
+        >O título da tarefa é obrigatório (mínimo 3 caracteres).</span
+      >
+      }
+
+      <!-- Descrição -->
+      <div class="field-card">
+        <div class="field-icon">
+          <ion-icon name="reorder-three-outline"></ion-icon>
+        </div>
+        <div class="field-input-box">
+          <label class="field-label">Descrição</label>
+          <ion-textarea
+            [autoGrow]="true"
+            rows="2"
+            formControlName="description"
+            placeholder="Adicione mais detalhes (opcional)"
+            class="custom-ion-textarea"
+          ></ion-textarea>
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="field-card clickable" id="open-date-picker">
+        <div class="field-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <div class="field-input-box">
+          <label class="field-label">Data *</label>
+          <span class="value-text"
+            >{{ formattedDate || 'Selecione a data' }}</span
+          >
+        </div>
+        <ion-icon
+          name="chevron-forward-outline"
+          class="trailing-icon"
+        ></ion-icon>
+      </div>
+
+      <!-- Horário -->
+      <div class="field-card clickable" id="open-time-picker">
+        <div class="field-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="field-input-box">
+          <label class="field-label">Horário *</label>
+          <span class="value-text"
+            >{{ taskForm.get('time')?.value || 'Selecione o horário' }}</span
+          >
+        </div>
+        <ion-icon
+          name="chevron-forward-outline"
+          class="trailing-icon"
+        ></ion-icon>
+      </div>
+
+      <!-- Categoria -->
+      <div class="field-card">
+        <div class="field-icon">
+          <ion-icon name="pricetag-outline"></ion-icon>
+        </div>
+        <div class="field-input-box">
+          <label class="field-label">Categoria *</label>
+          <ion-select
+            formControlName="category"
+            interface="popover"
+            class="custom-ion-select"
+          >
+            @for (cat of categories; track cat) {
+            <ion-select-option [value]="cat">{{ cat }}</ion-select-option>
+            }
+          </ion-select>
+        </div>
+      </div>
+
+      <!-- Prioridade * -->
+      <div class="field-card column-layout">
+        <div class="card-header-row">
+          <div class="field-icon">
+            <ion-icon name="flag-outline"></ion-icon>
+          </div>
+          <label class="field-label">Prioridade *</label>
+        </div>
+
+        <div class="priority-chips">
+          <button
+            type="button"
+            class="chip chip-low"
+            [class.active]="taskForm.get('priority')?.value === 'low'"
+            (click)="setPriority('low')"
+          >
+            Baixa
+          </button>
+          <button
+            type="button"
+            class="chip chip-medium"
+            [class.active]="taskForm.get('priority')?.value === 'medium'"
+            (click)="setPriority('medium')"
+          >
+            Média
+          </button>
+          <button
+            type="button"
+            class="chip chip-high"
+            [class.active]="taskForm.get('priority')?.value === 'high'"
+            (click)="setPriority('high')"
+          >
+            Alta
+          </button>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="field-card column-layout">
+        <div class="card-header-row">
+          <div class="field-icon">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+          <label class="field-label">Status</label>
+        </div>
+
+        <div class="status-toggle">
+          <button
+            type="button"
+            class="status-btn"
+            [class.active]="taskForm.get('status')?.value === 'pending'"
+            (click)="setStatus('pending')"
+          >
+            Pendente
+          </button>
+          <button
+            type="button"
+            class="status-btn"
+            [class.active]="taskForm.get('status')?.value === 'completed'"
+            (click)="setStatus('completed')"
+          >
+            Concluída
+          </button>
+        </div>
+      </div>
+
+      <!-- Botão Salvar tarefa -->
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        @if (isLoading) {
+        <ion-spinner name="crescent" color="light"></ion-spinner>
+        } @else {
+        <span>Salvar tarefa</span>
+        }
+      </button>
+    </form>
+  </div>
+
+  <!-- Modal Bottom Sheet para Seleção de Data -->
+  <ion-modal
+    trigger="open-date-picker"
+    [initialBreakpoint]="0.5"
+    [breakpoints]="[0, 0.6]"
+    class="modern-sheet-modal"
+  >
+    <ng-template>
+      <div class="sheet-container">
+        <div class="sheet-header">
+          <h3>Selecionar Data</h3>
+        </div>
+        <ion-datetime
+          presentation="date"
+          [value]="taskForm.get('date')?.value"
+          (ionChange)="onDateChange($event)"
+          [showDefaultButtons]="true"
+          doneText="Confirmar"
+          cancelText="Cancelar"
+          class="modern-datetime"
+        ></ion-datetime>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal Bottom Sheet para Seleção de Horário -->
+  <ion-modal
+    trigger="open-time-picker"
+    [initialBreakpoint]="0.5"
+    [breakpoints]="[0, 0.6]"
+    class="modern-sheet-modal"
+  >
+    <ng-template>
+      <div class="sheet-container">
+        <div class="sheet-header">
+          <h3>Selecionar Horário</h3>
+        </div>
+        <ion-datetime
+          presentation="time"
+          [value]="taskForm.get('date')?.value + 'T' + taskForm.get('time')?.value"
+          (ionChange)="onTimeChange($event)"
+          [showDefaultButtons]="true"
+          doneText="Confirmar"
+          cancelText="Cancelar"
+          class="modern-datetime"
+        ></ion-datetime>
+      </div>
+    </ng-template> </ion-modal
+></ion-content>

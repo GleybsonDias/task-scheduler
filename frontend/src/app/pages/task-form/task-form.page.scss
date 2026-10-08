@@ -1,0 +1,264 @@
+.task-form-content {
+  --background: #f4f6fa;
+}
+
+.page-wrapper {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 20px 40px;
+}
+
+/* Barra superior */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .icon-nav-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: #172b4d;
+    }
+  }
+
+  .cancel-link-btn {
+    background: #eef2f8;
+    border: none;
+    color: #1d5ab9;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+}
+
+/* Cabeçalho */
+.page-header {
+  margin-top: 30px;
+  margin-bottom: 60px;
+
+  .main-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #172b4d;
+    margin: 0 0 6px;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: #6b778c;
+    margin: 0;
+  }
+}
+
+/* Formulário */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &.column-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  &.field-error {
+    border-color: #eb5757;
+  }
+
+  .field-icon {
+    display: flex;
+    align-items: center;
+    color: #4a5568;
+
+    ion-icon {
+      font-size: 1.25rem;
+    }
+  }
+
+  .field-input-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .field-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #718096;
+      margin-bottom: 2px;
+    }
+
+    .value-text {
+      font-size: 0.92rem;
+      color: #1a202c;
+      font-weight: 500;
+      padding: 4px 0;
+    }
+
+    .custom-ion-input,
+    .custom-ion-textarea {
+      --padding-start: 0;
+      --padding-end: 0;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --color: #1a202c;
+      --placeholder-color: #a0aec0;
+      font-size: 0.92rem;
+      min-height: auto;
+    }
+
+    .custom-ion-select {
+      --padding-start: 0;
+      --padding-end: 0;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      font-size: 0.92rem;
+      color: #1a202c;
+      width: 100%;
+    }
+  }
+
+  .trailing-icon {
+    font-size: 1.1rem;
+    color: #a0aec0;
+  }
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .field-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #718096;
+  }
+}
+
+/* Chips de Prioridade */
+.priority-chips {
+  display: flex;
+  gap: 8px;
+
+  .chip {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.chip-low {
+      background: #eafaf1;
+      color: #27ae60;
+      &.active {
+        background: #27ae60;
+        color: #ffffff;
+      }
+    }
+
+    &.chip-medium {
+      background: #e6f0fa;
+      color: #1d5ab9;
+      &.active {
+        background: #1d5ab9;
+        color: #ffffff;
+      }
+    }
+
+    &.chip-high {
+      background: #fdf0f0;
+      color: #eb5757;
+      &.active {
+        background: #eb5757;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+/* Toggle de Status */
+.status-toggle {
+  display: flex;
+  background: #edf2f7;
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+
+  .status-btn {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.active {
+      background: #e2eafc;
+      color: #1d5ab9;
+    }
+  }
+}
+
+.error-text {
+  font-size: 0.75rem;
+  color: #eb5757;
+  margin-top: -6px;
+  margin-left: 6px;
+}
+
+/* Botão Salvar */
+.btn-primary {
+  width: 100%;
+  height: 48px;
+  background: #1d5ab9;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(29, 90, 185, 0.28);
+  margin-top: 8px;
+  transition: opacity 0.2s;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+ion-content {
+  --background: #f4f6fa;
+  --color: #172b4d;
+}
+
+.home-container {
+  padding: 24px;
+
+  h2 {
+    color: #172b4d;
+    font-weight: 700;
+    margin-top: 0;
+  }
+
+  p {
+    color: #6b778c;
+    font-size: 0.95rem;
+  }
+}

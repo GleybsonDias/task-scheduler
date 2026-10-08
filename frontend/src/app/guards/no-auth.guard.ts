@@ -8,7 +8,7 @@ export const noAuthGuard: CanActivateFn = () => {
 
   // Se já estiver com sessão iniciada, barra o acesso e envia para a home
   if (authService.isAuthenticated()) {
-    router.navigate(['/home'], { replaceUrl: true });
+    router.navigate(['/tabs/home'], { replaceUrl: true });
     return false;
   }
 

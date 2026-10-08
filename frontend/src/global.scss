@@ -46,3 +46,108 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #172b4d !important;
   transition: background-color 5000s ease-in-out 0s !important;
 }
+
+/* Modern Bottom Sheet Date & Time Picker */
+ion-modal.modern-sheet-modal {
+  --background: #ffffff;
+  --border-radius: 28px 28px 0 0;
+  --box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+
+  &::part(content) {
+    background: #ffffff;
+    border-radius: 28px 28px 0 0;
+    overflow-y: auto;
+  }
+
+  .sheet-container {
+    background: #ffffff;
+    padding: 12px 18px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+
+    .sheet-header {
+      width: 100%;
+      text-align: center;
+      padding: 4px 0 8px;
+
+      h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #172b4d;
+      }
+    }
+  }
+
+  ion-datetime.modern-datetime {
+    --background: #ffffff;
+    background: #ffffff;
+    max-width: 360px;
+    width: 100%;
+    border-radius: 18px;
+    color: #172b4d;
+
+    /* Destaque da roleta (mês/ano) */
+    --wheel-highlight-background: #edf2f7;
+    --wheel-fade-background-rgb: 255, 255, 255;
+
+    /* Título do mês e botões */
+    &::part(month-year-button) {
+      color: #1d5ab9;
+      font-weight: 700;
+    }
+
+    /* Roleta de Mês e Ano (Month-Year Picker) */
+    &::part(wheel-item) {
+      color: #718096;
+      font-size: 1rem;
+    }
+
+    &::part(wheel-item active),
+    &::part(wheel-item-active) {
+      color: #172b4d;
+      font-weight: 700;
+    }
+
+    /* Sobrescreve máscaras escuras internas de gradiente da roda */
+    ion-picker-internal,
+    .picker-column-internal {
+      background: #ffffff !important;
+      color: #172b4d !important;
+    }
+
+    /* Dias do calendário */
+    &::part(calendar-day) {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #172b4d;
+    }
+
+    &::part(calendar-day active),
+    &::part(calendar-day-active) {
+      background: #1d5ab9;
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+
+    /* Ações de rodapé */
+    ion-button {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+
+      &[slot="cancel"] {
+        color: #8993a4;
+      }
+
+      &[slot="done"] {
+        color: #1d5ab9;
+      }
+    }
+  }
+}

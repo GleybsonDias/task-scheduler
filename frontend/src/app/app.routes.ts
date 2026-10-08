@@ -22,9 +22,45 @@ export const routes: Routes = [
     canActivate: [noAuthGuard],
   },
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'tabs',
+    loadComponent: () =>
+      import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
     canActivate: [authGuard],
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+      },
+      {
+        path: 'agenda',
+        loadComponent: () =>
+          import('./pages/agenda/agenda.page').then((m) => m.AgendaPage),
+      },
+      {
+        path: 'tarefas',
+        loadComponent: () =>
+          import('./pages/task-form/task-form.page').then(
+            (m) => m.TaskFormPage,
+          ),
+      },
+      {
+        path: 'configuracoes',
+        loadComponent: () =>
+          import('./pages/configuracoes/configuracoes.page').then(
+            (m) => m.ConfiguracoesPage,
+          ),
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: 'home',
+    redirectTo: 'tabs/home',
+    pathMatch: 'full',
   },
   {
     path: '**',
