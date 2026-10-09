@@ -35,7 +35,11 @@ import {
   add,
 } from 'ionicons/icons';
 import { TaskService } from '../../services/task.service';
-import { TaskPriority, TaskStatus } from '../../models/task.model';
+import {
+  CreateTaskDto,
+  TaskPriority,
+  TaskStatus,
+} from '../../models/task.model';
 
 @Component({
   selector: 'app-task-form',
@@ -64,6 +68,9 @@ export class TaskFormPage implements OnInit {
 
   public taskForm!: FormGroup;
   public isLoading = false;
+  public isDateModalOpen = false;
+  public isTimeModalOpen = false;
+
   public categories: string[] = [
     'Trabalho',
     'Estudos',
@@ -99,13 +106,12 @@ export class TaskFormPage implements OnInit {
       description: [''],
       date: [defaultDate, [Validators.required]],
       time: [defaultTime, [Validators.required]],
-      category: ['Trabalho', [Validators.required]],
-      priority: ['medium' as TaskPriority, [Validators.required]],
-      status: ['pending' as TaskStatus, [Validators.required]],
+      category: ['Trabalho'],
+      priority: ['MEDIUM' as TaskPriority, [Validators.required]],
+      status: ['PENDING' as TaskStatus, [Validators.required]],
     });
   }
 
-  // Getter que converte YYYY-MM-DD para DD/MM/YYYY
   get formattedDate(): string {
     const rawDate = this.taskForm?.get('date')?.value;
     if (!rawDate) return '';
@@ -119,12 +125,12 @@ export class TaskFormPage implements OnInit {
     return rawDate;
   }
 
-  setPriority(priority: string) {
-    this.taskForm.patchValue({ priority: priority as TaskPriority });
+  setPriority(priority: TaskPriority) {
+    this.taskForm.patchValue({ priority });
   }
 
-  setStatus(status: string) {
-    this.taskForm.patchValue({ status: status as TaskStatus });
+  setStatus(status: TaskStatus) {
+    this.taskForm.patchValue({ status });
   }
 
   onDateChange(event: any) {
@@ -144,41 +150,66 @@ export class TaskFormPage implements OnInit {
     }
   }
 
+  onCancel() {
+    this.router.navigate(['/tabs/home']);
+  }
+
   async onSubmit() {
-    if (this.taskForm.invalid || this.isLoading) {
+    if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
+      const toast = await this.toastCtrl.create({
+        message: 'Por favor, preencha os campos obrigatórios corretamente.',
+        duration: 2500,
+        color: 'warning',
+        position: 'bottom',
+      });
+      await toast.present();
       return;
     }
 
+    if (this.isLoading) return;
+
     this.isLoading = true;
     const formVal = this.taskForm.value;
-    const combinedDueDate = new Date(`${formVal.date}T${formVal.time}:00`);
 
-    const payload = {
+    const timeWithSeconds =
+      formVal.time && formVal.time.length === 5
+        ? `${formVal.time}:00`
+        : formVal.time || '00:00:00';
+    const combinedDueDate = new Date(`${formVal.date}T${timeWithSeconds}`);
+
+    const payload: CreateTaskDto = {
       title: formVal.title.trim(),
-      description: formVal.description ? formVal.description.trim() : '',
-      category: formVal.category,
+      description: formVal.description ? formVal.description.trim() : undefined,
+      dueDate: combinedDueDate.toISOString(),
       priority: formVal.priority,
       status: formVal.status,
-      dueDate: combinedDueDate.toISOString(),
     };
 
     this.taskService.createTask(payload).subscribe({
       next: async () => {
         this.isLoading = false;
         const toast = await this.toastCtrl.create({
-          message: 'Tarefa criada com sucesso!',
+          message: 'Tarefa salva com sucesso!',
           duration: 2500,
           color: 'success',
           position: 'bottom',
         });
         await toast.present();
+        this.taskForm.reset();
         this.router.navigate(['/tabs/home']);
       },
       error: async (err) => {
         this.isLoading = false;
-        const message =
-          err.error?.message || 'Falha ao salvar tarefa. Tente novamente.';
+        console.error('Erro ao salvar tarefa:', err);
+
+        let message = 'Falha ao salvar tarefa. Tente novamente.';
+        if (err.error?.message) {
+          message = Array.isArray(err.error.message)
+            ? err.error.message.join(', ')
+            : err.error.message;
+        }
+
         const toast = await this.toastCtrl.create({
           message,
           duration: 3500,

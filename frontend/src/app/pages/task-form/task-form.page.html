@@ -1,5 +1,15 @@
 <ion-content [fullscreen]="true" class="task-form-content">
   <div class="page-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-nav">
+      <button type="button" class="icon-nav-btn" (click)="onCancel()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+      <button type="button" class="cancel-link-btn" (click)="onCancel()">
+        Cancelar
+      </button>
+    </header>
+
     <!-- Page Title -->
     <div class="page-header">
       <h1 class="main-title">Nova tarefa</h1>
@@ -89,7 +99,7 @@
           <ion-icon name="pricetag-outline"></ion-icon>
         </div>
         <div class="field-input-box">
-          <label class="field-label">Categoria *</label>
+          <label class="field-label">Categoria</label>
           <ion-select
             formControlName="category"
             interface="popover"
@@ -115,24 +125,24 @@
           <button
             type="button"
             class="chip chip-low"
-            [class.active]="taskForm.get('priority')?.value === 'low'"
-            (click)="setPriority('low')"
+            [class.active]="taskForm.get('priority')?.value === 'LOW'"
+            (click)="setPriority('LOW')"
           >
             Baixa
           </button>
           <button
             type="button"
             class="chip chip-medium"
-            [class.active]="taskForm.get('priority')?.value === 'medium'"
-            (click)="setPriority('medium')"
+            [class.active]="taskForm.get('priority')?.value === 'MEDIUM'"
+            (click)="setPriority('MEDIUM')"
           >
             Média
           </button>
           <button
             type="button"
             class="chip chip-high"
-            [class.active]="taskForm.get('priority')?.value === 'high'"
-            (click)="setPriority('high')"
+            [class.active]="taskForm.get('priority')?.value === 'HIGH'"
+            (click)="setPriority('HIGH')"
           >
             Alta
           </button>
@@ -152,16 +162,16 @@
           <button
             type="button"
             class="status-btn"
-            [class.active]="taskForm.get('status')?.value === 'pending'"
-            (click)="setStatus('pending')"
+            [class.active]="taskForm.get('status')?.value === 'PENDING'"
+            (click)="setStatus('PENDING')"
           >
             Pendente
           </button>
           <button
             type="button"
             class="status-btn"
-            [class.active]="taskForm.get('status')?.value === 'completed'"
-            (click)="setStatus('completed')"
+            [class.active]="taskForm.get('status')?.value === 'COMPLETED'"
+            (click)="setStatus('COMPLETED')"
           >
             Concluída
           </button>
@@ -172,6 +182,7 @@
       <button type="submit" class="btn-primary" [disabled]="isLoading">
         @if (isLoading) {
         <ion-spinner name="crescent" color="light"></ion-spinner>
+        <span style="margin-left: 8px">Salvando...</span>
         } @else {
         <span>Salvar tarefa</span>
         }
@@ -182,8 +193,8 @@
   <!-- Modal Bottom Sheet para Seleção de Data -->
   <ion-modal
     trigger="open-date-picker"
-    [initialBreakpoint]="0.5"
-    [breakpoints]="[0, 0.6]"
+    [initialBreakpoint]="0.7"
+    [breakpoints]="[0, 0.7, 0.85]"
     class="modern-sheet-modal"
   >
     <ng-template>
@@ -192,6 +203,7 @@
           <h3>Selecionar Data</h3>
         </div>
         <ion-datetime
+          locale="pt-BR"
           presentation="date"
           [value]="taskForm.get('date')?.value"
           (ionChange)="onDateChange($event)"
@@ -207,8 +219,8 @@
   <!-- Modal Bottom Sheet para Seleção de Horário -->
   <ion-modal
     trigger="open-time-picker"
-    [initialBreakpoint]="0.5"
-    [breakpoints]="[0, 0.6]"
+    [initialBreakpoint]="0.48"
+    [breakpoints]="[0, 0.48]"
     class="modern-sheet-modal"
   >
     <ng-template>
@@ -217,6 +229,7 @@
           <h3>Selecionar Horário</h3>
         </div>
         <ion-datetime
+          locale="pt-BR"
           presentation="time"
           [value]="taskForm.get('date')?.value + 'T' + taskForm.get('time')?.value"
           (ionChange)="onTimeChange($event)"
@@ -226,5 +239,6 @@
           class="modern-datetime"
         ></ion-datetime>
       </div>
-    </ng-template> </ion-modal
-></ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
