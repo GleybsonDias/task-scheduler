@@ -192,16 +192,16 @@
     padding: 8px 0;
     border-radius: 8px;
     border: none;
-    background: transparent;
+    background: #e6f0fa;
     font-size: 0.82rem;
     font-weight: 600;
-    color: #718096;
+    color: #1d5ab9;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &.active {
-      background: #e2eafc;
-      color: #1d5ab9;
+      background: #1d5ab9;
+      color: #ffffff;
     }
   }
 }
