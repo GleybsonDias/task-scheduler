@@ -14,33 +14,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-
-  .icon-nav-btn {
-    background: none;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-
-    ion-icon {
-      font-size: 1.5rem;
-      color: #172b4d;
-    }
-  }
-
-  .cancel-link-btn {
-    background: #eef2f8;
-    border: none;
-    color: #1d5ab9;
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-  }
 }
-
 /* Cabeçalho */
 .page-header {
   margin-top: 30px;
