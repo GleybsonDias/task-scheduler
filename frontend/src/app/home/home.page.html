@@ -1,6 +1,158 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="home-container">
-    <h2>Olá! 👋</h2>
-    <p>Bem-vindo à tela de Início (Home)</p>
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="home-wrapper">
+    <!-- Bloco Fixo no Topo -->
+    <div class="fixed-header-container">
+      <!-- Header: Logotipo Taskly -->
+      <header class="app-brand-row">
+        <div class="brand-box">
+          <div class="brand-icon-box">
+            <ion-icon
+              name="calendar-outline"
+              class="brand-calendar-icon"
+            ></ion-icon>
+            <ion-icon
+              name="checkmark-circle-outline"
+              class="brand-check-icon"
+            ></ion-icon>
+          </div>
+          <span class="brand-title">Taskly</span>
+        </div>
+      </header>
+
+      <!-- Saudação e Boas-Vindas -->
+      <section class="welcome-section">
+        <h1 class="welcome-title">Olá, {{ userName }}!</h1>
+        <p class="welcome-subtitle">Aqui está o que você tem para hoje.</p>
+      </section>
+
+      <!-- Barra de Pesquisa -->
+      <div class="search-bar-box">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Buscar tarefas..."
+          class="search-input"
+        />
+      </div>
+
+      <!-- Abas de Filtros com Contadores Dinâmicos -->
+      <div class="filter-tabs">
+        <button
+          type="button"
+          class="filter-tab-btn"
+          [class.active]="currentFilter() === 'ALL'"
+          (click)="setFilter('ALL')"
+        >
+          <span>Todas</span>
+          <span class="tab-badge">{{ totalCount() }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="filter-tab-btn"
+          [class.active]="currentFilter() === 'PENDING'"
+          (click)="setFilter('PENDING')"
+        >
+          <ion-icon name="time-outline"></ion-icon>
+          <span>Pendentes</span>
+          <span class="tab-badge">{{ pendingCount() }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="filter-tab-btn"
+          [class.active]="currentFilter() === 'COMPLETED'"
+          (click)="setFilter('COMPLETED')"
+        >
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <span>Concluídas</span>
+          <span class="tab-badge">{{ completedCount() }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Área de Conteúdo / Rolagem das Tarefas -->
+    <div class="scrollable-tasks-container">
+      <!-- Loading State -->
+      @if (isLoading()) {
+      <div class="loading-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <span>Carregando suas tarefas...</span>
+      </div>
+      }
+
+      <!-- Lista de Tarefas Reais -->
+      @if (!isLoading()) {
+      <main class="tasks-list">
+        @for (task of filteredTasks(); track task.id) {
+        <article
+          class="task-card"
+          [class.task-completed]="task.status === 'COMPLETED'"
+        >
+          <!-- Checkbox Interativo -->
+          <button
+            type="button"
+            class="checkbox-btn"
+            (click)="toggleTaskStatus(task)"
+            aria-label="Alternar status"
+          >
+            @if (task.status === 'COMPLETED') {
+            <ion-icon name="checkbox" class="checked-icon"></ion-icon>
+            } @else {
+            <div class="custom-checkbox-empty"></div>
+            }
+          </button>
+
+          <!-- Detalhes da Tarefa -->
+          <div class="task-info">
+            <h2 class="task-title">{{ task.title }}</h2>
+
+            <div class="task-meta-row">
+              <span class="meta-item">
+                <ion-icon [name]="task.categoryIcon"></ion-icon>
+                <span>{{ task.categoryName }}</span>
+              </span>
+
+              <span class="meta-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ task.scheduleText }}</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Badge de Prioridade e Seta -->
+          <div class="task-trailing">
+            <span
+              class="priority-badge"
+              [class.priority-low]="task.priority === 'LOW'"
+              [class.priority-medium]="task.priority === 'MEDIUM'"
+              [class.priority-high]="task.priority === 'HIGH'"
+            >
+              @if (task.priority === 'LOW') { Baixa } @else if (task.priority
+              === 'HIGH') { Alta } @else { Média }
+            </span>
+
+            <ion-icon
+              name="chevron-forward-outline"
+              class="arrow-icon"
+            ></ion-icon>
+          </div>
+        </article>
+        } @empty {
+        <div class="empty-state-box">
+          <ion-icon name="clipboard-outline" class="empty-icon"></ion-icon>
+          <h3>Nenhuma tarefa encontrada</h3>
+          <p>
+            @if (searchQuery()) { Nenhum resultado corresponde à sua busca. }
+            @else if (currentFilter() !== 'ALL') { Você não possui tarefas nesta
+            categoria. } @else { Você ainda não cadastrou tarefas. Acesse a aba
+            <strong>Criar tarefas</strong> para começar! }
+          </p>
+        </div>
+        }
+      </main>
+      }
+    </div>
   </div>
 </ion-content>
