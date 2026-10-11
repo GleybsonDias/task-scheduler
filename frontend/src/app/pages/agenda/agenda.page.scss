@@ -1,24 +1,373 @@
-:host {
-  display: block;
-  height: 100%;
-}
-
-ion-content {
+.agenda-content {
   --background: #f4f6fa;
-  --color: #172b4d;
 }
 
-.home-container {
-  padding: 24px;
+.agenda-wrapper {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 20px 100px;
+}
 
-  h2 {
+/* 1. Logotipo Taskly */
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .brand-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border: 2px solid #1d5ab9;
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(29, 90, 185, 0.12);
+
+      .brand-calendar-icon {
+        font-size: 1.5rem;
+        color: #1d5ab9;
+      }
+
+      .brand-check-icon {
+        position: absolute;
+        font-size: 0.95rem;
+        color: #1d5ab9;
+        background: #ffffff;
+        border-radius: 50%;
+        bottom: 7px;
+        right: 7px;
+      }
+    }
+
+    .brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #172b4d;
+      letter-spacing: -0.3px;
+    }
+  }
+}
+
+/* 2. Cabeçalho da Agenda */
+.agenda-header-section {
+  margin-bottom: 16px;
+
+  .page-title {
+    font-size: 1.7rem;
+    font-weight: 800;
     color: #172b4d;
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
+  }
+
+  .page-subtitle {
+    font-size: 0.92rem;
+    color: #6b778c;
+    margin: 0;
+    line-height: 1.35;
+  }
+}
+
+/* 3. Card do Calendário */
+.calendar-card {
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 22px;
+  padding: 16px 14px 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  margin-bottom: 22px;
+
+  .calendar-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 4px;
+
+    .nav-arrow-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 6px;
+      cursor: pointer;
+      color: #6b778c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s ease;
+
+      ion-icon {
+        font-size: 1.25rem;
+      }
+
+      &:hover {
+        background: #f0f4f9;
+      }
+    }
+
+    .current-month-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #172b4d;
+      letter-spacing: -0.2px;
+    }
+  }
+
+  .weekdays-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    margin-bottom: 8px;
+
+    .weekday-item {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #8993a4;
+    }
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 4px;
+
+    .day-cell {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 6px 0 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+
+      .day-number {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #172b4d;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+
+      .dot-wrapper {
+        height: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+
+        .task-dot {
+          width: 4px;
+          height: 4px;
+          background-color: #1d5ab9;
+          border-radius: 50%;
+        }
+      }
+
+      &.other-month {
+        .day-number {
+          color: #c1c7d0;
+        }
+      }
+
+      &.selected {
+        .day-number {
+          background-color: #1d5ab9;
+          color: #ffffff;
+          box-shadow: 0 4px 10px rgba(29, 90, 185, 0.35);
+        }
+
+        .task-dot {
+          background-color: #1d5ab9;
+        }
+      }
+    }
+  }
+}
+
+/* 4. Secção das Tarefas Diárias */
+.tasks-section {
+  .selected-date-header {
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-top: 0;
+    color: #172b4d;
+    margin: 0 0 12px 2px;
+  }
+
+  .loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 0;
+    color: #6b778c;
+    font-size: 0.9rem;
+  }
+
+  .tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.agenda-task-card {
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.2s ease;
+
+  .time-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .indicator-bar {
+      width: 4px;
+      height: 32px;
+      border-radius: 4px;
+    }
+
+    .time-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #6b778c;
+      min-width: 42px;
+    }
+  }
+
+  .task-details {
+    flex: 1;
+    min-width: 0;
+
+    .task-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #172b4d;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.2s ease;
+    }
+
+    .task-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      color: #7a869a;
+      font-weight: 500;
+
+      ion-icon {
+        font-size: 0.92rem;
+      }
+    }
+  }
+
+  .trailing-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .status-completed-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: #eafaf1;
+      color: #27ae60;
+
+      ion-icon {
+        font-size: 0.88rem;
+      }
+    }
+
+    .priority-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+
+      &.priority-low {
+        background: #eafaf1;
+        color: #27ae60;
+      }
+
+      &.priority-medium {
+        background: #eaf2fd;
+        color: #1d5ab9;
+      }
+
+      &.priority-high {
+        background: #fdf0f0;
+        color: #eb5757;
+      }
+    }
+
+    .arrow-icon {
+      font-size: 1.1rem;
+      color: #97a0af;
+    }
+  }
+
+  /* Estilização para tarefa com status COMPLETED */
+  &.task-completed {
+    opacity: 0.75;
+    background: #fcfdfe;
+
+    .task-title {
+      text-decoration: line-through;
+      color: #7a869a;
+    }
+  }
+}
+
+.empty-agenda-state {
+  background: #ffffff;
+  border: 1px dashed #d0d7de;
+  border-radius: 18px;
+  padding: 30px 16px;
+  text-align: center;
+  color: #7a869a;
+
+  .empty-icon {
+    font-size: 2.2rem;
+    color: #8993a4;
+    margin-bottom: 8px;
   }
 
   p {
-    color: #6b778c;
-    font-size: 0.95rem;
+    margin: 0;
+    font-size: 0.88rem;
   }
 }

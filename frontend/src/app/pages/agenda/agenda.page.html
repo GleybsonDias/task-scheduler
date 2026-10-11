@@ -1,6 +1,148 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="home-container">
-    <h2>Olá! 👋</h2>
-    <p>Bem-vindo à tela de Agenda</p>
+<ion-content [fullscreen]="true" class="agenda-content">
+  <div class="agenda-wrapper">
+    <!-- Header: Logotipo Taskly (sem avatar à direita) -->
+    <header class="app-brand-row">
+      <div class="brand-box">
+        <div class="brand-icon-box">
+          <ion-icon
+            name="calendar-outline"
+            class="brand-calendar-icon"
+          ></ion-icon>
+          <ion-icon
+            name="checkmark-circle-outline"
+            class="brand-check-icon"
+          ></ion-icon>
+        </div>
+        <span class="brand-title">Taskly</span>
+      </div>
+    </header>
+
+    <!-- Título Principal da Página -->
+    <section class="agenda-header-section">
+      <h1 class="page-title">Agenda</h1>
+      <p class="page-subtitle">
+        Organize seu tempo e mantenha suas tarefas em dia.
+      </p>
+    </section>
+
+    <!-- Calendário Mensal Estilizado -->
+    <section class="calendar-card">
+      <!-- Navegação Mês e Ano -->
+      <div class="calendar-controls">
+        <button
+          type="button"
+          class="nav-arrow-btn"
+          (click)="previousMonth()"
+          aria-label="Mês anterior"
+        >
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
+        <span class="current-month-label">{{ currentMonthYearLabel() }}</span>
+        <button
+          type="button"
+          class="nav-arrow-btn"
+          (click)="nextMonth()"
+          aria-label="Próximo mês"
+        >
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Cabeçalho dos Dias da Semana -->
+      <div class="weekdays-grid">
+        @for (dayName of weekDays; track dayName) {
+        <span class="weekday-item">{{ dayName }}</span>
+        }
+      </div>
+
+      <!-- Grelha de Dias do Mês -->
+      <div class="days-grid">
+        @for (day of calendarDays(); track day.dateKey) {
+        <button
+          type="button"
+          class="day-cell"
+          [class.other-month]="!day.isCurrentMonth"
+          [class.selected]="day.isSelected"
+          (click)="selectDay(day)"
+        >
+          <span class="day-number">{{ day.dayNumber }}</span>
+          <div class="dot-wrapper">
+            @if (day.hasTasks) {
+            <span class="task-dot" [class.dot-selected]="day.isSelected"></span>
+            }
+          </div>
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Secção das Tarefas do Dia Selecionado -->
+    <section class="tasks-section">
+      <h2 class="selected-date-header">{{ selectedDateFormatted() }}</h2>
+
+      @if (isLoading()) {
+      <div class="loading-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <span>A carregar agenda...</span>
+      </div>
+      } @if (!isLoading()) {
+      <div class="tasks-list">
+        @for (task of selectedDayTasks(); track task.id) {
+        <article
+          class="agenda-task-card"
+          [class.task-completed]="task.status === 'COMPLETED'"
+        >
+          <!-- Barra vertical indicadora e horário -->
+          <div class="time-block">
+            <span
+              class="indicator-bar"
+              [style.backgroundColor]="task.indicatorColor"
+            ></span>
+            <span class="time-text">{{ task.timeFormatted }}</span>
+          </div>
+
+          <!-- Informações da Tarefa -->
+          <div class="task-details">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <div class="task-category">
+              <ion-icon [name]="task.categoryIcon"></ion-icon>
+              <span>{{ task.categoryName }}</span>
+            </div>
+          </div>
+
+          <!-- Badge de Status/Prioridade e Ação -->
+          <div class="trailing-block">
+            @if (task.status === 'COMPLETED') {
+            <span class="status-completed-badge">
+              <ion-icon name="checkmark-done-outline"></ion-icon>
+              <span>Concluída</span>
+            </span>
+            } @else {
+            <span
+              class="priority-badge"
+              [class.priority-low]="task.priority === 'LOW'"
+              [class.priority-medium]="task.priority === 'MEDIUM'"
+              [class.priority-high]="task.priority === 'HIGH'"
+            >
+              @if (task.priority === 'LOW') { Baixa } @else if (task.priority
+              === 'HIGH') { Alta } @else { Média }
+            </span>
+            }
+
+            <ion-icon
+              name="chevron-forward-outline"
+              class="arrow-icon"
+            ></ion-icon>
+          </div>
+        </article>
+        } @empty {
+        <div class="empty-agenda-state">
+          <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+          <p>Nenhuma tarefa agendada para esta data.</p>
+        </div>
+        }
+      </div>
+      }
+    </section>
   </div>
 </ion-content>
