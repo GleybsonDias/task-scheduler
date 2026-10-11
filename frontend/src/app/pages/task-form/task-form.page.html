@@ -1,5 +1,22 @@
 <ion-content [fullscreen]="true" class="task-form-content">
   <div class="page-wrapper">
+    <!-- Header: Logotipo Taskly (sem avatar à direita) -->
+    <header class="app-brand-row">
+      <div class="brand-box">
+        <div class="brand-icon-box">
+          <ion-icon
+            name="calendar-outline"
+            class="brand-calendar-icon"
+          ></ion-icon>
+          <ion-icon
+            name="checkmark-circle-outline"
+            class="brand-check-icon"
+          ></ion-icon>
+        </div>
+        <span class="brand-title">Taskly</span>
+      </div>
+    </header>
+
     <!-- Page Title -->
     <div class="page-header">
       <h1 class="main-title">Adicione uma nova tarefa</h1>
@@ -89,7 +106,7 @@
           <ion-icon name="pricetag-outline"></ion-icon>
         </div>
         <div class="field-input-box">
-          <label class="field-label">Categoria</label>
+          <label class="field-label">Categoria *</label>
           <ion-select
             formControlName="category"
             interface="popover"
@@ -145,7 +162,7 @@
           <div class="field-icon">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
           </div>
-          <label class="field-label">Status</label>
+          <label class="field-label">Status *</label>
         </div>
 
         <div class="status-toggle">

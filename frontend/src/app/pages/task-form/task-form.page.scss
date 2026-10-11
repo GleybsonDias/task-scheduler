@@ -8,6 +8,55 @@
   padding: 16px 20px 40px;
 }
 
+/* 1. Logotipo Taskly */
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .brand-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border: 2px solid #1d5ab9;
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(29, 90, 185, 0.12);
+
+      .brand-calendar-icon {
+        font-size: 1.5rem;
+        color: #1d5ab9;
+      }
+
+      .brand-check-icon {
+        position: absolute;
+        font-size: 0.95rem;
+        color: #1d5ab9;
+        background: #ffffff;
+        border-radius: 50%;
+        bottom: 7px;
+        right: 7px;
+      }
+    }
+
+    .brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #172b4d;
+      letter-spacing: -0.3px;
+    }
+  }
+}
+
 /* Barra superior */
 .top-nav {
   display: flex;
@@ -17,8 +66,8 @@
 }
 /* Cabeçalho */
 .page-header {
-  margin-top: 30px;
-  margin-bottom: 60px;
+  margin-top: 15px;
+  margin-bottom: 25px;
 
   .main-title {
     font-size: 1.65rem;
