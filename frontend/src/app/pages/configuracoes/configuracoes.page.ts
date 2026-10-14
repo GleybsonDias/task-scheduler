@@ -2,7 +2,7 @@ import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IonContent, IonIcon, IonModal, ViewWillEnter } from '@ionic/angular';
+import { IonContent, IonIcon, ViewWillEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   calendarOutline,
@@ -19,7 +19,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './configuracoes.page.html',
   styleUrls: ['./configuracoes.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, IonModal],
+  imports: [CommonModule, IonContent, IonIcon],
 })
 export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
   private router = inject(Router);
@@ -69,7 +69,6 @@ export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
       this.userEmail.set(user.email);
     }
 
-    // Tenta atualizar dados em segundo plano pela API caso tenham mudado
     this.authService.getProfile().subscribe({
       next: (res) => {
         if (res?.user) {
@@ -78,13 +77,13 @@ export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
         }
       },
       error: () => {
-        // Se a rota /me falhar, mantém os dados da sessão local já carregados
+        // Mantém dados em cache
       },
     });
   }
 
   goToEditProfile() {
-    this.router.navigate(['/pages/configuracoes/edit']);
+    this.router.navigate(['/tabs/configuracoes']);
   }
 
   openLogoutModal() {
@@ -98,6 +97,6 @@ export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
   confirmLogout() {
     this.closeLogoutModal();
     this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 }

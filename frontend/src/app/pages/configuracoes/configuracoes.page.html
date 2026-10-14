@@ -22,7 +22,7 @@
       <h1 class="page-title">Perfil</h1>
     </section>
 
-    <!-- Bloco de Destaque do Usuário (Sem foto de perfil) -->
+    <!-- Bloco de Destaque do Usuário -->
     <section class="user-info-card">
       <h2 class="user-display-name">{{ userName() }}</h2>
       <p class="user-display-email">{{ userEmail() }}</p>
@@ -68,40 +68,37 @@
     </section>
   </div>
 
-  <!-- Modal de Confirmação de Logout -->
-  <ion-modal
-    [isOpen]="isLogoutModalOpen()"
-    (didDismiss)="closeLogoutModal()"
-    class="logout-confirm-modal"
-  >
-    <ng-template>
-      <div class="modal-dialog-card">
-        <div class="modal-icon-header">
-          <ion-icon name="alert-circle-outline"></ion-icon>
-        </div>
-        <h3 class="modal-title">Deseja realmente sair?</h3>
-        <p class="modal-message">
-          Você será desconectado da sua conta e precisará entrar novamente para
-          acessar suas tarefas.
-        </p>
-
-        <div class="modal-buttons-group">
-          <button
-            type="button"
-            class="btn-modal-cancel"
-            (click)="closeLogoutModal()"
-          >
-            Não quero sair
-          </button>
-          <button
-            type="button"
-            class="btn-modal-confirm"
-            (click)="confirmLogout()"
-          >
-            Sim
-          </button>
-        </div>
+  <!-- Caixa de Diálogo de Confirmação de Saída (Sem ion-modal) -->
+  @if (isLogoutModalOpen()) {
+  <div class="custom-modal-overlay" (click)="closeLogoutModal()">
+    <div class="modal-dialog-card" (click)="$event.stopPropagation()">
+      <div class="modal-icon-header">
+        <ion-icon name="alert-circle-outline"></ion-icon>
       </div>
-    </ng-template>
-  </ion-modal>
+      <h3 class="modal-title">Deseja realmente sair?</h3>
+      <p class="modal-message">
+        Ao confirmar, sua sessão será encerrada e você precisará fazer login
+        novamente para acessar suas tarefas.
+      </p>
+
+      <div class="modal-buttons-group">
+        <button
+          type="button"
+          class="btn-modal-confirm"
+          (click)="confirmLogout()"
+        >
+          Sim
+        </button>
+
+        <button
+          type="button"
+          class="btn-modal-cancel"
+          (click)="closeLogoutModal()"
+        >
+          Não quero sair, voltar a tela anterior
+        </button>
+      </div>
+    </div>
+  </div>
+  }
 </ion-content>

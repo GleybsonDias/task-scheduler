@@ -70,7 +70,7 @@
   }
 }
 
-/* 3. Bloco de Dados do Usuário (Sem Avatar) */
+/* 3. Bloco de Dados do Usuário */
 .user-info-card {
   text-align: center;
   background: #ffffff;
@@ -167,87 +167,120 @@
     }
   }
 }
-
-/* 5. Modal de Confirmação de Logout */
-.logout-confirm-modal {
-  --background: rgba(0, 0, 0, 0.45);
-  --width: 90%;
-  --max-width: 360px;
-  --height: auto;
-  --border-radius: 24px;
+/* 5. Overlay e Caixa de Diálogo de Saída */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.18s ease-out;
+}
 
-  .modal-dialog-card {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 24px 20px;
-    text-align: center;
+.modal-dialog-card {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 26px 22px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: scaleUp 0.2s ease-out;
+
+  .modal-icon-header {
+    width: 54px;
+    height: 54px;
+    background: #fdf0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+
+    ion-icon {
+      font-size: 2.1rem;
+      color: #eb5757;
+    }
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #172b4d;
+    margin: 0 0 8px;
+  }
+
+  .modal-message {
+    font-size: 0.9rem;
+    color: #6b778c;
+    margin: 0 0 24px;
+    line-height: 1.45;
+  }
+
+  .modal-buttons-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    gap: 12px;
 
-    .modal-icon-header {
-      width: 52px;
-      height: 52px;
-      background: #fdf0f0;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-
-      ion-icon {
-        font-size: 2rem;
-        color: #eb5757;
-      }
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #172b4d;
-      margin: 0 0 8px;
-    }
-
-    .modal-message {
-      font-size: 0.9rem;
-      color: #6b778c;
-      margin: 0 0 22px;
-      line-height: 1.45;
-    }
-
-    .modal-buttons-group {
-      display: flex;
-      flex-direction: column;
+    button {
       width: 100%;
-      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition:
+        opacity 0.2s ease,
+        transform 0.1s ease;
 
-      button {
-        width: 100%;
-        padding: 13px 0;
-        border-radius: 14px;
-        font-size: 0.96rem;
-        font-weight: 700;
-        cursor: pointer;
-        border: none;
-        transition: opacity 0.2s ease;
-
-        &:active {
-          opacity: 0.85;
-        }
-      }
-
-      .btn-modal-cancel {
-        background: #eef2f7;
-        color: #42526e;
-      }
-
-      .btn-modal-confirm {
-        background: #eb5757;
-        color: #ffffff;
+      &:active {
+        opacity: 0.85;
+        transform: scale(0.99);
       }
     }
+
+    .btn-modal-confirm {
+      background: #eb5757;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(235, 87, 87, 0.25);
+    }
+
+    .btn-modal-cancel {
+      background: #eef2f7;
+      color: #42526e;
+      line-height: 1.35;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
