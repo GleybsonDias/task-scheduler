@@ -74,13 +74,24 @@ export class AuthService {
   }
 
   getProfile(): Observable<{
-    message: string;
-    user: { userId: string; email: string };
+    message?: string;
+    user: User;
   }> {
-    return this.http.get<{
-      message: string;
-      user: { userId: string; email: string };
-    }>(`${this.baseUrl}/me`);
+    return this.http
+      .get<{
+        message?: string;
+        user: User;
+      }>(`${this.baseUrl}/me`)
+      .pipe(
+        tap((res) => {
+          if (res && res.user) {
+            const current = this.currentUserValue;
+            const updated = { ...current, ...res.user };
+            localStorage.setItem(this.USER_KEY, JSON.stringify(updated));
+            this.currentUserSubject.next(updated);
+          }
+        }),
+      );
   }
 
   updateProfile(data: UpdateProfileDto): Observable<User> {

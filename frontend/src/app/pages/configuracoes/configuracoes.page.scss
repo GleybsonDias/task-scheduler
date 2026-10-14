@@ -1,24 +1,253 @@
-:host {
-  display: block;
-  height: 100%;
-}
-
-ion-content {
+.configuracoes-content {
   --background: #f4f6fa;
-  --color: #172b4d;
 }
 
-.home-container {
-  padding: 24px;
+.configuracoes-wrapper {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 16px 20px 100px;
+}
 
-  h2 {
+/* 1. Logotipo Taskly */
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .brand-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border: 2px solid #1d5ab9;
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(29, 90, 185, 0.12);
+
+      .brand-calendar-icon {
+        font-size: 1.5rem;
+        color: #1d5ab9;
+      }
+
+      .brand-check-icon {
+        position: absolute;
+        font-size: 0.95rem;
+        color: #1d5ab9;
+        background: #ffffff;
+        border-radius: 50%;
+        bottom: 7px;
+        right: 7px;
+      }
+    }
+
+    .brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #172b4d;
+      letter-spacing: -0.3px;
+    }
+  }
+}
+
+/* 2. Título da Página */
+.page-title-section {
+  margin-bottom: 24px;
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 800;
     color: #172b4d;
-    font-weight: 700;
-    margin-top: 0;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+}
+
+/* 3. Bloco de Dados do Usuário (Sem Avatar) */
+.user-info-card {
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+
+  .user-display-name {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #172b4d;
+    margin: 0 0 6px;
+    letter-spacing: -0.3px;
   }
 
-  p {
-    color: #6b778c;
+  .user-display-email {
     font-size: 0.95rem;
+    color: #6b778c;
+    margin: 0;
+  }
+}
+
+/* 4. Ações e Botões */
+.config-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.config-action-btn {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .action-lead {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    .action-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 1.3rem;
+      }
+
+      &.edit-icon-box {
+        background: #eaf2fd;
+        color: #1d5ab9;
+      }
+
+      &.logout-icon-box {
+        background: #fdf0f0;
+        color: #eb5757;
+      }
+    }
+
+    .action-label {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: #172b4d;
+    }
+  }
+
+  .action-chevron {
+    font-size: 1.15rem;
+    color: #97a0af;
+  }
+
+  &.logout-btn {
+    .action-label {
+      color: #eb5757;
+    }
+  }
+}
+
+/* 5. Modal de Confirmação de Logout */
+.logout-confirm-modal {
+  --background: rgba(0, 0, 0, 0.45);
+  --width: 90%;
+  --max-width: 360px;
+  --height: auto;
+  --border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-dialog-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .modal-icon-header {
+      width: 52px;
+      height: 52px;
+      background: #fdf0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+
+      ion-icon {
+        font-size: 2rem;
+        color: #eb5757;
+      }
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #172b4d;
+      margin: 0 0 8px;
+    }
+
+    .modal-message {
+      font-size: 0.9rem;
+      color: #6b778c;
+      margin: 0 0 22px;
+      line-height: 1.45;
+    }
+
+    .modal-buttons-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+
+      button {
+        width: 100%;
+        padding: 13px 0;
+        border-radius: 14px;
+        font-size: 0.96rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s ease;
+
+        &:active {
+          opacity: 0.85;
+        }
+      }
+
+      .btn-modal-cancel {
+        background: #eef2f7;
+        color: #42526e;
+      }
+
+      .btn-modal-confirm {
+        background: #eb5757;
+        color: #ffffff;
+      }
+    }
   }
 }

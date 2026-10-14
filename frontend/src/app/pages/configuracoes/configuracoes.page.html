@@ -1,6 +1,107 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="home-container">
-    <h2>Olá! 👋</h2>
-    <p>Bem-vindo à tela de Configurações</p>
+<ion-content [fullscreen]="true" class="configuracoes-content">
+  <div class="configuracoes-wrapper">
+    <!-- Header: Logotipo Taskly -->
+    <header class="app-brand-row">
+      <div class="brand-box">
+        <div class="brand-icon-box">
+          <ion-icon
+            name="calendar-outline"
+            class="brand-calendar-icon"
+          ></ion-icon>
+          <ion-icon
+            name="checkmark-circle-outline"
+            class="brand-check-icon"
+          ></ion-icon>
+        </div>
+        <span class="brand-title">Taskly</span>
+      </div>
+    </header>
+
+    <!-- Título Principal -->
+    <section class="page-title-section">
+      <h1 class="page-title">Perfil</h1>
+    </section>
+
+    <!-- Bloco de Destaque do Usuário (Sem foto de perfil) -->
+    <section class="user-info-card">
+      <h2 class="user-display-name">{{ userName() }}</h2>
+      <p class="user-display-email">{{ userEmail() }}</p>
+    </section>
+
+    <!-- Menu de Opções -->
+    <section class="config-actions-list">
+      <!-- Botão Editar Perfil -->
+      <button
+        type="button"
+        class="config-action-btn"
+        (click)="goToEditProfile()"
+      >
+        <div class="action-lead">
+          <div class="action-icon-box edit-icon-box">
+            <ion-icon name="create-outline"></ion-icon>
+          </div>
+          <span class="action-label">Editar Perfil</span>
+        </div>
+        <ion-icon
+          name="chevron-forward-outline"
+          class="action-chevron"
+        ></ion-icon>
+      </button>
+
+      <!-- Botão Sair -->
+      <button
+        type="button"
+        class="config-action-btn logout-btn"
+        (click)="openLogoutModal()"
+      >
+        <div class="action-lead">
+          <div class="action-icon-box logout-icon-box">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </div>
+          <span class="action-label">Sair</span>
+        </div>
+        <ion-icon
+          name="chevron-forward-outline"
+          class="action-chevron"
+        ></ion-icon>
+      </button>
+    </section>
   </div>
+
+  <!-- Modal de Confirmação de Logout -->
+  <ion-modal
+    [isOpen]="isLogoutModalOpen()"
+    (didDismiss)="closeLogoutModal()"
+    class="logout-confirm-modal"
+  >
+    <ng-template>
+      <div class="modal-dialog-card">
+        <div class="modal-icon-header">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+        <h3 class="modal-title">Deseja realmente sair?</h3>
+        <p class="modal-message">
+          Você será desconectado da sua conta e precisará entrar novamente para
+          acessar suas tarefas.
+        </p>
+
+        <div class="modal-buttons-group">
+          <button
+            type="button"
+            class="btn-modal-cancel"
+            (click)="closeLogoutModal()"
+          >
+            Não quero sair
+          </button>
+          <button
+            type="button"
+            class="btn-modal-confirm"
+            (click)="confirmLogout()"
+          >
+            Sim
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-content>
