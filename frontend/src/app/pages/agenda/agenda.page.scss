@@ -1,19 +1,26 @@
 .agenda-content {
   --background: #f4f6fa;
+  --overflow: hidden; /* Trava a rolagem da tela inteira */
 }
 
 .agenda-wrapper {
   max-width: 440px;
+  height: 100%;
   margin: 0 auto;
-  padding: 16px 20px 100px;
+  padding: 16px 20px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* 1. Logotipo Taskly */
 .app-brand-row {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   .brand-box {
     display: flex;
@@ -59,7 +66,8 @@
 
 /* 2. Cabeçalho da Agenda */
 .agenda-header-section {
-  margin-bottom: 16px;
+  flex-shrink: 0;
+  margin-bottom: 14px;
 
   .page-title {
     font-size: 1.7rem;
@@ -77,20 +85,21 @@
   }
 }
 
-/* 3. Card do Calendário */
+/* 3. Card do Calendário (Fixo) */
 .calendar-card {
+  flex-shrink: 0;
   background: #ffffff;
   border: 1px solid #eef2f6;
   border-radius: 22px;
-  padding: 16px 14px 12px;
+  padding: 14px 14px 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 
   .calendar-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     padding: 0 4px;
 
     .nav-arrow-btn {
@@ -127,7 +136,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 
     .weekday-item {
       font-size: 0.78rem;
@@ -139,13 +148,13 @@
   .days-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    row-gap: 4px;
+    row-gap: 2px;
 
     .day-cell {
       background: transparent;
       border: none;
       outline: none;
-      padding: 6px 0 4px;
+      padding: 4px 0 3px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -203,9 +212,15 @@
   }
 }
 
-/* 4. Secção das Tarefas Diárias */
+/* 4. Secção das Tarefas Diárias (Container Flexível com Rolagem Interna) */
 .tasks-section {
+  flex: 1;
+  min-height: 0; /* Essencial para o Flexbox permitir rolagem no filho */
+  display: flex;
+  flex-direction: column;
+
   .selected-date-header {
+    flex-shrink: 0;
     font-size: 0.95rem;
     font-weight: 700;
     color: #172b4d;
@@ -223,13 +238,25 @@
   }
 
   .tasks-list {
+    flex: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-bottom: 100px; /* Espaço inferior para não ficar atrás da barra de abas */
+    padding-right: 2px;
+
+    /* Oculta barra de rolagem visual mantendo o scroll funcional */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
 .agenda-task-card {
+  flex-shrink: 0;
   background: #ffffff;
   border: 1px solid #eef2f6;
   border-radius: 18px;

@@ -5,7 +5,8 @@
 .page-wrapper {
   max-width: 440px;
   margin: 0 auto;
-  padding: 16px 20px 40px;
+  padding: 12px 20px 90px;
+  box-sizing: border-box;
 }
 
 /* 1. Logotipo Taskly */
@@ -13,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 
   .brand-box {
     display: flex;
@@ -21,8 +22,8 @@
     gap: 10px;
 
     .brand-icon-box {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       background: #ffffff;
       border: 2px solid #1d5ab9;
       border-radius: 12px;
@@ -33,23 +34,23 @@
       box-shadow: 0 4px 10px rgba(29, 90, 185, 0.12);
 
       .brand-calendar-icon {
-        font-size: 1.5rem;
+        font-size: 1.45rem;
         color: #1d5ab9;
       }
 
       .brand-check-icon {
         position: absolute;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         color: #1d5ab9;
         background: #ffffff;
         border-radius: 50%;
-        bottom: 7px;
-        right: 7px;
+        bottom: 6px;
+        right: 6px;
       }
     }
 
     .brand-title {
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: #172b4d;
       letter-spacing: -0.3px;
@@ -62,22 +63,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
+
 /* Cabeçalho */
 .page-header {
-  margin-top: 15px;
-  margin-bottom: 25px;
+  margin-top: 4px;
+  margin-bottom: 14px;
 
   .main-title {
-    font-size: 1.65rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: #172b4d;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
   }
 
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     color: #6b778c;
     margin: 0;
   }
@@ -87,14 +91,14 @@
 .form-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 9px;
 }
 
 .field-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
-  padding: 8px 14px;
+  padding: 6px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -107,7 +111,8 @@
   &.column-layout {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 8px;
+    padding: 8px 14px;
   }
 
   &.field-error {
@@ -120,7 +125,7 @@
     color: #4a5568;
 
     ion-icon {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -130,44 +135,45 @@
     flex-direction: column;
 
     .field-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: #718096;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
 
     .value-text {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: #1a202c;
       font-weight: 500;
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     .custom-ion-input,
     .custom-ion-textarea {
       --padding-start: 0;
       --padding-end: 0;
-      --padding-top: 0;
-      --padding-bottom: 0;
+      --padding-top: 2px;
+      --padding-bottom: 2px;
       --color: #1a202c;
       --placeholder-color: #a0aec0;
-      font-size: 0.92rem;
-      min-height: auto;
+      font-size: 0.9rem;
+      min-height: 24px;
     }
 
     .custom-ion-select {
       --padding-start: 0;
       --padding-end: 0;
-      --padding-top: 0;
-      --padding-bottom: 0;
-      font-size: 0.92rem;
+      --padding-top: 2px;
+      --padding-bottom: 2px;
+      font-size: 0.9rem;
       color: #1a202c;
       width: 100%;
+      min-height: 24px;
     }
   }
 
   .trailing-icon {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #a0aec0;
   }
 }
@@ -175,10 +181,10 @@
 .card-header-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 
   .field-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: #718096;
   }
@@ -191,10 +197,10 @@
 
   .chip {
     flex: 1;
-    padding: 8px 0;
+    padding: 6px 0;
     border-radius: 10px;
     border: none;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -233,16 +239,16 @@
   display: flex;
   background: #edf2f7;
   border-radius: 10px;
-  padding: 4px;
+  padding: 3px;
   gap: 4px;
 
   .status-btn {
     flex: 1;
-    padding: 8px 0;
+    padding: 6px 0;
     border-radius: 8px;
     border: none;
     background: #e6f0fa;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #1d5ab9;
     cursor: pointer;
@@ -256,28 +262,28 @@
 }
 
 .error-text {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #eb5757;
-  margin-top: -6px;
+  margin-top: -4px;
   margin-left: 6px;
 }
 
 /* Botão Salvar */
 .btn-primary {
   width: 100%;
-  height: 48px;
+  height: 44px;
   background: #1d5ab9;
   color: #ffffff;
   border: none;
   border-radius: 12px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(29, 90, 185, 0.28);
-  margin-top: 8px;
+  margin-top: 4px;
   transition: opacity 0.2s;
 
   &:disabled {
