@@ -2,7 +2,12 @@ import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IonContent, IonIcon, ViewWillEnter } from '@ionic/angular';
+import {
+  IonContent,
+  IonIcon,
+  ToastController,
+  ViewWillEnter,
+} from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   calendarOutline,
@@ -24,6 +29,7 @@ import { AuthService } from '../../services/auth.service';
 export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toastCtrl = inject(ToastController);
   private userSub?: Subscription;
 
   public userName = signal<string>('Carregando...');
@@ -82,8 +88,13 @@ export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
     });
   }
 
-  goToEditProfile() {
-    this.router.navigate(['/tabs/configuracoes']);
+  async goToEditProfile() {
+    const toast = await this.toastCtrl.create({
+      message: 'A edição de perfil estará disponível em breve.',
+      duration: 2500,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   openLogoutModal() {
