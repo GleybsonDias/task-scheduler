@@ -1,31 +1,45 @@
 .home-content {
   --background: #f4f6fa;
+  --overflow: hidden; /* Trava a rolagem global do ion-content */
   position: relative;
 }
 
 .home-wrapper {
   max-width: 440px;
-  min-height: 100%;
+  height: 100%;
   margin: 0 auto;
-  padding: 0 20px 90px;
+  padding: 0 20px;
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Container Fixo do Topo */
+/* Container Fixo do Topo (100% Estático) */
 .fixed-header-container {
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   z-index: 10;
   background: #f4f6fa;
   padding-top: 16px;
-  padding-bottom: 8px;
-  /* Sombra sutil que se integra suavemente caso role por baixo */
-  box-shadow: 0 6px 14px -6px rgba(244, 246, 250, 0.95);
+  padding-bottom: 10px;
 }
 
+/* Container de Rolagem Isolada das Tarefas */
 .scrollable-tasks-container {
-  padding-top: 6px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: 4px;
+  padding-bottom: 100px; /* Espaço para não cobrir o último card com a tab bar */
+
+  /* Oculta a barra de rolagem mantendo o scroll suave */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* 1. Logotipo Taskly */
@@ -130,48 +144,52 @@
 /* 4. Abas de Filtros */
 .filter-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0 -2px 4px; /* Compensa o respiro lateral da sombra */
+  padding: 4px 2px 8px; /* Espaço interno para não cortar o box-shadow do botão ativo */
 
   .filter-tab-btn {
+    flex: 0 1 auto; /* Ajusta a largura proporcionalmente ao texto de cada botão */
+    justify-content: center;
     border: none;
     outline: none;
     background: #eef2f7;
     color: #6b778c;
-    padding: 8px 14px;
+    padding: 7px 9px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
 
     ion-icon {
-      font-size: 1.05rem;
+      font-size: 0.9rem;
+      flex-shrink: 0;
     }
 
     .tab-badge {
       background: rgba(0, 0, 0, 0.06);
       color: #6b778c;
-      padding: 2px 7px;
-      border-radius: 12px;
-      font-size: 0.76rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 0.7rem;
       font-weight: 700;
+      line-height: 1;
     }
 
     &.active {
       background: #1d5ab9;
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(29, 90, 185, 0.28);
+      box-shadow: 0 4px 10px rgba(29, 90, 185, 0.28);
 
       ion-icon {
         color: #ffffff;

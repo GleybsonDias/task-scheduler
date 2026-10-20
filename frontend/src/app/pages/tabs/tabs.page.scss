@@ -12,11 +12,20 @@
 
   ion-tab-button {
     --background: transparent;
+    --background-focused: transparent;
+    --background-focused-opacity: 0;
+    --ripple-color: transparent;
     --color: #6b778c;
     --color-selected: #1d5ab9;
     font-size: 0.72rem;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
+
+    &::part(native) {
+      background: transparent !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
 
     ion-icon {
       font-size: 1.45rem;
