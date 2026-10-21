@@ -91,6 +91,8 @@
         <article
           class="agenda-task-card"
           [class.task-completed]="task.status === 'COMPLETED'"
+          (click)="openTaskDetail(task.id)"
+          style="cursor: pointer"
         >
           <!-- Barra vertical indicadora e horário -->
           <div class="time-block">

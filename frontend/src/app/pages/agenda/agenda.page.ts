@@ -1,5 +1,6 @@
 import { Component, computed, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { IonContent, IonIcon, IonSpinner, ViewWillEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -46,6 +47,8 @@ export interface AgendaTaskItem {
   imports: [CommonModule, IonContent, IonIcon, IonSpinner],
 })
 export class AgendaPage implements ViewWillEnter {
+  private router = inject(Router);
+
   private taskService = inject(TaskService);
 
   public readonly weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
@@ -175,6 +178,12 @@ export class AgendaPage implements ViewWillEnter {
       checkmarkCircleOutline,
       folderOutline,
       checkmarkDoneOutline,
+    });
+  }
+
+  openTaskDetail(taskId: string) {
+    this.router.navigate(['/tabs/tarefas'], {
+      queryParams: { id: taskId },
     });
   }
 

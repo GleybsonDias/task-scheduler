@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true" class="task-form-content">
   <div class="page-wrapper">
-    <!-- Header: Logotipo Taskly (sem avatar à direita) -->
+    <!-- Header: Logotipo Taskly + Botão Voltar (no modo edição) -->
     <header class="app-brand-row">
       <div class="brand-box">
         <div class="brand-icon-box">
@@ -15,12 +15,24 @@
         </div>
         <span class="brand-title">Taskly</span>
       </div>
+
+      @if (isEditMode) {
+      <button type="button" class="back-btn" (click)="onCancel()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        <span>Voltar</span>
+      </button>
+      }
     </header>
 
-    <!-- Page Title -->
+    <!-- Page Title Dinâmico -->
     <div class="page-header">
-      <h1 class="main-title">Adicione uma nova tarefa</h1>
-      <p class="subtitle">Preencha as informações para adicionar sua tarefa.</p>
+      <h1 class="main-title">
+        {{ isEditMode ? 'Detalhes da tarefa' : 'Adicione uma nova tarefa' }}
+      </h1>
+      <p class="subtitle">
+        {{ isEditMode ? 'Visualize, edite ou exclua as informações da sua
+        tarefa.' : 'Preencha as informações para adicionar sua tarefa.' }}
+      </p>
     </div>
 
     <!-- Form Body -->
@@ -67,7 +79,7 @@
       </div>
 
       <!-- Data -->
-      <div class="field-card clickable" id="open-date-picker">
+      <div class="field-card clickable" (click)="openDateModal()">
         <div class="field-icon">
           <ion-icon name="calendar-outline"></ion-icon>
         </div>
@@ -84,7 +96,7 @@
       </div>
 
       <!-- Horário -->
-      <div class="field-card clickable" id="open-time-picker">
+      <div class="field-card clickable" (click)="openTimeModal()">
         <div class="field-icon">
           <ion-icon name="time-outline"></ion-icon>
         </div>
@@ -185,67 +197,108 @@
         </div>
       </div>
 
-      <!-- Botão Salvar tarefa -->
-      <button type="submit" class="btn-primary" [disabled]="isLoading">
-        @if (isLoading) {
-        <ion-spinner name="crescent" color="light"></ion-spinner>
-        <span style="margin-left: 8px">Salvando...</span>
-        } @else {
-        <span>Salvar tarefa</span>
+      <!-- Botões de Ação (Salvar / Excluir) -->
+      <div class="action-buttons-row">
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          @if (isLoading) {
+          <ion-spinner name="crescent" color="light"></ion-spinner>
+          <span style="margin-left: 8px">Salvando...</span>
+          } @else {
+          <span>{{ isEditMode ? 'Salvar alterações' : 'Salvar tarefa' }}</span>
+          }
+        </button>
+
+        @if (isEditMode) {
+        <button
+          type="button"
+          class="btn-delete-outline"
+          (click)="openDeleteModal()"
+          [disabled]="isLoading || isDeleting"
+          aria-label="Excluir tarefa"
+        >
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
         }
-      </button>
+      </div>
     </form>
   </div>
 
-  <!-- Modal Bottom Sheet para Seleção de Data -->
-  <ion-modal
-    trigger="open-date-picker"
-    [initialBreakpoint]="0.7"
-    [breakpoints]="[0, 0.7, 0.85]"
-    class="modern-sheet-modal"
-  >
-    <ng-template>
-      <div class="sheet-container">
-        <div class="sheet-header">
-          <h3>Selecionar Data</h3>
-        </div>
-        <ion-datetime
-          locale="pt-BR"
-          presentation="date"
-          [value]="taskForm.get('date')?.value"
-          (ionChange)="onDateChange($event)"
-          [showDefaultButtons]="true"
-          doneText="Confirmar"
-          cancelText="Cancelar"
-          class="modern-datetime"
-        ></ion-datetime>
+  <!-- Overlay Customizado para Seleção de Data -->
+  @if (isDateModalOpen()) {
+  <div class="custom-modal-overlay" (click)="closeDateModal()">
+    <div class="sheet-dialog-card" (click)="$event.stopPropagation()">
+      <div class="sheet-header">
+        <h3>Selecionar Data</h3>
       </div>
-    </ng-template>
-  </ion-modal>
+      <ion-datetime
+        locale="pt-BR"
+        presentation="date"
+        [value]="taskForm.get('date')?.value"
+        (ionChange)="onDateChange($event)"
+        (ionCancel)="closeDateModal()"
+        [showDefaultButtons]="true"
+        doneText="Confirmar"
+        cancelText="Cancelar"
+        class="modern-datetime"
+      ></ion-datetime>
+    </div>
+  </div>
+  }
 
-  <!-- Modal Bottom Sheet para Seleção de Horário -->
-  <ion-modal
-    trigger="open-time-picker"
-    [initialBreakpoint]="0.48"
-    [breakpoints]="[0, 0.48]"
-    class="modern-sheet-modal"
-  >
-    <ng-template>
-      <div class="sheet-container">
-        <div class="sheet-header">
-          <h3>Selecionar Horário</h3>
-        </div>
-        <ion-datetime
-          locale="pt-BR"
-          presentation="time"
-          [value]="taskForm.get('date')?.value + 'T' + taskForm.get('time')?.value"
-          (ionChange)="onTimeChange($event)"
-          [showDefaultButtons]="true"
-          doneText="Confirmar"
-          cancelText="Cancelar"
-          class="modern-datetime"
-        ></ion-datetime>
+  <!-- Overlay Customizado para Seleção de Horário -->
+  @if (isTimeModalOpen()) {
+  <div class="custom-modal-overlay" (click)="closeTimeModal()">
+    <div class="sheet-dialog-card" (click)="$event.stopPropagation()">
+      <div class="sheet-header">
+        <h3>Selecionar Horário</h3>
       </div>
-    </ng-template>
-  </ion-modal>
+      <ion-datetime
+        locale="pt-BR"
+        presentation="time"
+        [value]="taskForm.get('date')?.value + 'T' + taskForm.get('time')?.value"
+        (ionChange)="onTimeChange($event)"
+        (ionCancel)="closeTimeModal()"
+        [showDefaultButtons]="true"
+        doneText="Confirmar"
+        cancelText="Cancelar"
+        class="modern-datetime"
+      ></ion-datetime>
+    </div>
+  </div>
+  }
+
+  <!-- Caixa de Diálogo de Confirmação de Exclusão -->
+  @if (isDeleteModalOpen()) {
+  <div class="custom-modal-overlay" (click)="closeDeleteModal()">
+    <div class="modal-dialog-card" (click)="$event.stopPropagation()">
+      <div class="modal-icon-header">
+        <ion-icon name="trash-outline"></ion-icon>
+      </div>
+      <h3 class="modal-title">Excluir tarefa?</h3>
+      <p class="modal-message">
+        Tem certeza que deseja excluir esta tarefa? Essa ação não poderá ser
+        desfeita.
+      </p>
+
+      <div class="modal-buttons-group">
+        <button
+          type="button"
+          class="btn-modal-confirm"
+          (click)="confirmDelete()"
+          [disabled]="isDeleting"
+        >
+          {{ isDeleting ? 'Excluindo...' : 'Sim, excluir tarefa' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn-modal-cancel"
+          (click)="closeDeleteModal()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+  }
 </ion-content>

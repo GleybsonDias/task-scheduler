@@ -89,12 +89,13 @@
         <article
           class="task-card"
           [class.task-completed]="task.status === 'COMPLETED'"
+          (click)="openTaskDetail(task.id)"
+          style="cursor: pointer"
         >
-          <!-- Checkbox Interativo -->
           <button
             type="button"
             class="checkbox-btn"
-            (click)="toggleTaskStatus(task)"
+            (click)="$event.stopPropagation(); toggleTaskStatus(task)"
             aria-label="Alternar status"
           >
             @if (task.status === 'COMPLETED') {

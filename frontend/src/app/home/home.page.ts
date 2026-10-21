@@ -8,6 +8,7 @@ import {
   ToastController,
   ViewWillEnter,
 } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import {
   searchOutline,
@@ -50,6 +51,8 @@ export interface TaskItemView {
   imports: [CommonModule, FormsModule, IonContent, IonIcon, IonSpinner],
 })
 export class HomePage implements ViewWillEnter {
+  private router = inject(Router);
+
   private taskService = inject(TaskService);
   private toastCtrl = inject(ToastController);
 
@@ -103,6 +106,12 @@ export class HomePage implements ViewWillEnter {
       chevronForwardOutline,
       checkbox,
       clipboardOutline,
+    });
+  }
+
+  openTaskDetail(taskId: string) {
+    this.router.navigate(['/tabs/tarefas'], {
+      queryParams: { id: taskId },
     });
   }
 

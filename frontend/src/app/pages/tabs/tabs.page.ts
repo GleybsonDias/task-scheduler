@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   IonTabs,
   IonTabBar,
@@ -23,12 +24,21 @@ import {
   imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
 })
 export class TabsPage {
+  private router = inject(Router);
+
   constructor() {
     addIcons({
       home,
       calendarOutline,
       checkmarkCircleOutline,
       settingsOutline,
+    });
+  }
+
+  goToCreateTask() {
+    this.router.navigate(['/tabs/tarefas'], {
+      queryParams: {},
+      replaceUrl: true,
     });
   }
 }
