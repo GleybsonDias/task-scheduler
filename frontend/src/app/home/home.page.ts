@@ -1,3 +1,4 @@
+import { NotificationService } from '../services/notification.service';
 import { Component, computed, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -51,6 +52,8 @@ export interface TaskItemView {
   imports: [CommonModule, FormsModule, IonContent, IonIcon, IonSpinner],
 })
 export class HomePage implements ViewWillEnter {
+  private notificationService = inject(NotificationService);
+
   private router = inject(Router);
 
   private taskService = inject(TaskService);
@@ -161,6 +164,13 @@ export class HomePage implements ViewWillEnter {
 
     const updateDto: UpdateTaskDto = { status: newStatus };
     this.taskService.updateTask(task.id, updateDto).subscribe({
+      next: async (updatedTask) => {
+        if (newStatus === 'COMPLETED') {
+          await this.notificationService.cancelTaskNotification(task.id);
+        } else {
+          await this.notificationService.scheduleTaskNotification(updatedTask);
+        }
+      },
       error: async () => {
         // Reverte caso a API falhe
         this.tasks.update((list) =>

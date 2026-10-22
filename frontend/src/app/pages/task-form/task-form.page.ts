@@ -1,3 +1,4 @@
+import { NotificationService } from '../../services/notification.service';
 import { Component, inject, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -64,6 +65,7 @@ import {
   ],
 })
 export class TaskFormPage implements ViewWillEnter, OnDestroy {
+  private notificationService = inject(NotificationService);
   private fb = inject(FormBuilder);
   private taskService = inject(TaskService);
   private router = inject(Router);
@@ -303,6 +305,7 @@ export class TaskFormPage implements ViewWillEnter, OnDestroy {
 
     this.taskService.deleteTask(idToDelete).subscribe({
       next: async () => {
+        await this.notificationService.cancelTaskNotification(idToDelete);
         this.closeDeleteModal();
         const toast = await this.toastCtrl.create({
           message: 'Tarefa excluída com sucesso!',
@@ -361,7 +364,8 @@ export class TaskFormPage implements ViewWillEnter, OnDestroy {
       };
 
       this.taskService.updateTask(this.taskId, updatePayload).subscribe({
-        next: async () => {
+        next: async (updatedTask) => {
+          await this.notificationService.scheduleTaskNotification(updatedTask);
           const toast = await this.toastCtrl.create({
             message: 'Tarefa atualizada com sucesso!',
             duration: 2500,
@@ -396,7 +400,8 @@ export class TaskFormPage implements ViewWillEnter, OnDestroy {
       };
 
       this.taskService.createTask(createPayload).subscribe({
-        next: async () => {
+        next: async (createdTask) => {
+          await this.notificationService.scheduleTaskNotification(createdTask);
           const toast = await this.toastCtrl.create({
             message: 'Tarefa salva com sucesso!',
             duration: 2500,
@@ -406,6 +411,7 @@ export class TaskFormPage implements ViewWillEnter, OnDestroy {
           await toast.present();
           this.navigateBackClean();
         },
+
         error: async (err) => {
           this.isLoading = false;
           const message =
