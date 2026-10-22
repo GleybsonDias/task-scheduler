@@ -105,9 +105,9 @@ export class ConfiguracoesPage implements OnInit, ViewWillEnter, OnDestroy {
     this.isLogoutModalOpen.set(false);
   }
 
-  confirmLogout() {
+  async confirmLogout() {
     this.closeLogoutModal();
-    this.authService.logout();
+    await this.authService.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 }

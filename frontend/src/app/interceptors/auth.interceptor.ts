@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const token = authService.getToken();
+  const token = authService.getTokenSync();
 
   // Se houver token, clona a requisição injetando o cabeçalho Authorization
   const authReq = token
