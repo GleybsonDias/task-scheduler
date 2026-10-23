@@ -17,12 +17,12 @@ export class SplashPage implements OnInit {
 
   ngOnInit() {
     // Aguarda 2 segundos para dar tempo de exibir a animação/marca
-    setTimeout(() => {
-      if (this.authService.isAuthenticated()) {
-        this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+    setTimeout(async () => {
+      if (await this.authService.isAuthenticated()) {
+        this.router.navigate(['/tabs/home'], { replaceUrl: true });
       } else {
-        this.router.navigateByUrl('/login', { replaceUrl: true });
+        this.router.navigate(['/login'], { replaceUrl: true });
       }
-    }, 2000);
+    }, 2500); // ou o tempo que você configurou
   }
 }

@@ -85,19 +85,25 @@ export class LoginPage {
 
     this.isLoading = true;
 
-    // Higienização dos dados de entrada
+    // Utilizamos getRawValue() para capturar os dados antes ou mesmo com o formulário desativado
+    const formValues = this.loginForm.getRawValue();
     const payload = {
-      email: this.loginForm.value.email.trim().toLowerCase(),
-      password: this.loginForm.value.password,
+      email: formValues.email.trim().toLowerCase(),
+      password: formValues.password,
     };
+
+    // Bloqueia todos os inputs reativos do formulário
+    this.loginForm.disable();
 
     this.authService.login(payload).subscribe({
       next: () => {
         this.isLoading = false;
+        this.loginForm.enable(); // Libera o formulário em background
         this.router.navigate(['/tabs/home']);
       },
       error: async (err) => {
         this.isLoading = false;
+        this.loginForm.enable(); // Desbloqueia para o usuário corrigir
         const message =
           err.error?.message ||
           'Falha ao autenticar. Verifique suas credenciais.';

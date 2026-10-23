@@ -69,7 +69,6 @@
             type="email"
             formControlName="email"
             placeholder="seu@email.com"
-            [disabled]="isLoading"
           />
         </div>
         @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid)
@@ -94,13 +93,11 @@
             [type]="showPassword ? 'text' : 'password'"
             formControlName="password"
             placeholder="Digite sua senha"
-            [disabled]="isLoading"
           />
           <button
             type="button"
             class="eye-btn"
             (click)="togglePasswordVisibility()"
-            [disabled]="isLoading"
           >
             <ion-icon
               [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
