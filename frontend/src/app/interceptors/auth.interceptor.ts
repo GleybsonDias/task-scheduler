@@ -9,14 +9,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const token = authService.getTokenSync();
 
-  // Se houver token, clona a requisição injetando o cabeçalho Authorization
-  const authReq = token
-    ? req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    : req;
+  // Cabeçalhos base: essenciais para pular a tela HTML de aviso do Ngrok gratuito
+  const headersConfig: Record<string, string> = {
+    'ngrok-skip-browser-warning': 'true',
+  };
+
+  // Se houver token, adiciona-o ao objeto de cabeçalhos
+  if (token) {
+    headersConfig['Authorization'] = `Bearer ${token}`;
+  }
+
+  // Clona a requisição aplicando os novos cabeçalhos
+  const authReq = req.clone({
+    setHeaders: headersConfig,
+  });
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
