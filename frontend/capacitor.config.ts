@@ -1,9 +1,10 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'frontend',
-  webDir: 'www'
+  appId: 'com.taskly.app',
+  appName: 'Taskly',
+  webDir: 'www',
+  bundledWebRuntime: false,
 };
 
 export default config;

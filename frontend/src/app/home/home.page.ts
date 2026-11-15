@@ -31,6 +31,7 @@ import {
   TaskStatus,
   UpdateTaskDto,
 } from '../models/task.model';
+import { Preferences } from '@capacitor/preferences'; // IMPORTADO AQUI
 
 export type TaskFilterType = 'ALL' | 'PENDING' | 'COMPLETED';
 
@@ -53,30 +54,25 @@ export interface TaskItemView {
 })
 export class HomePage implements ViewWillEnter {
   private notificationService = inject(NotificationService);
-
   private router = inject(Router);
-
   private taskService = inject(TaskService);
   private toastCtrl = inject(ToastController);
 
-  public userName = 'Gleybson';
+  public userName = 'Usuário';
   public searchQuery = signal<string>('');
   public currentFilter = signal<TaskFilterType>('ALL');
   public isLoading = signal<boolean>(false);
 
-  // Lista de tarefas reais obtidas da API
   public tasks = signal<TaskItemView[]>([]);
 
-  // Contadores automáticos baseados nas tarefas do banco
   public totalCount = computed(() => this.tasks().length);
   public pendingCount = computed(
-    () => this.tasks().filter((t) => t.status === 'PENDING').length,
+    () => this.tasks().filter((t) => t.status === 'PENDING').length
   );
   public completedCount = computed(
-    () => this.tasks().filter((t) => t.status === 'COMPLETED').length,
+    () => this.tasks().filter((t) => t.status === 'COMPLETED').length
   );
 
-  // Filtro dinâmico por texto de busca e status da aba
   public filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
     const filter = this.currentFilter();
@@ -118,9 +114,26 @@ export class HomePage implements ViewWillEnter {
     });
   }
 
-  // Executado sempre que o usuário entra na tela Home (atualiza após criar tarefa)
-  ionViewWillEnter() {
+  // Mudámos para async para poder esperar pelas Preferences do Capacitor
+  async ionViewWillEnter() {
+    await this.loadUserProfile();
     this.fetchTasks();
+  }
+
+  // Refatorado para ler do Capacitor Preferences com a chave correta
+  async loadUserProfile() {
+    try {
+      const { value } = await Preferences.get({ key: 'auth_user' });
+
+      if (value) {
+        const user = JSON.parse(value);
+        // O seu auth.service usa a propriedade "name" no RegisterDto/User
+        this.userName = user.name || user.firstName || 'Usuário';
+      }
+    } catch (error) {
+      console.error('Erro ao ler dados do usuário no Capacitor:', error);
+      this.userName = 'Usuário';
+    }
   }
 
   fetchTasks() {
@@ -150,16 +163,14 @@ export class HomePage implements ViewWillEnter {
     this.currentFilter.set(filter);
   }
 
-  // Alterna o status da tarefa e sincroniza com a API
   toggleTaskStatus(task: TaskItemView) {
     const newStatus: TaskStatus =
       task.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
 
-    // Atualização otimista na tela
     this.tasks.update((list) =>
       list.map((item) =>
-        item.id === task.id ? { ...item, status: newStatus } : item,
-      ),
+        item.id === task.id ? { ...item, status: newStatus } : item
+      )
     );
 
     const updateDto: UpdateTaskDto = { status: newStatus };
@@ -172,11 +183,10 @@ export class HomePage implements ViewWillEnter {
         }
       },
       error: async () => {
-        // Reverte caso a API falhe
         this.tasks.update((list) =>
           list.map((item) =>
-            item.id === task.id ? { ...item, status: task.status } : item,
-          ),
+            item.id === task.id ? { ...item, status: task.status } : item
+          )
         );
         const toast = await this.toastCtrl.create({
           message: 'Erro ao atualizar status da tarefa.',

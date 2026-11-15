@@ -1,14 +1,7 @@
-.register-content {
+ion-content.register-content {
   --background: #f4f6fa;
-  --overflow: hidden; /* Desativa a rolagem vertical desnecessária */
-  position: relative;
-
-  &::part(scroll) {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-  }
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
 .page-wrapper {
@@ -17,21 +10,23 @@
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
-  padding: 20px 24px 100px; /* Reduzido de 140px para caber na tela sem estourar */
+  padding: 10px 20px 64px;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 10px;
   box-sizing: border-box;
 }
 
-/* Header & Logo */
+/* Header & Logo Compactos */
 .header-section {
   text-align: center;
-  margin-bottom: 16px;
 
   .logo-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 8px;
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 4px;
 
     svg {
       width: 100%;
@@ -41,24 +36,24 @@
   }
 
   .app-title {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: #172b4d;
-    margin: 0 0 8px;
+    margin: 0 0 2px;
     letter-spacing: -0.5px;
   }
 
   .welcome-title {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #1a2b49;
-    margin: 0 0 4px;
+    margin: 0 0 2px;
   }
 
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #6b778c;
-    line-height: 1.35;
+    line-height: 1.25;
     margin: 0;
   }
 }
@@ -67,18 +62,26 @@
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+}
+
+/* Grelha para Nome e Sobrenome lado a lado */
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 
   .input-label {
-    font-size: 0.82rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #42526e;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
   }
 
   .custom-input-box {
@@ -86,9 +89,9 @@
     align-items: center;
     background: #eef2f6;
     border: 1px solid #dcdfe6;
-    border-radius: 12px;
-    padding: 0 14px;
-    height: 46px;
+    border-radius: 10px;
+    padding: 0 10px;
+    height: 40px;
     transition: all 0.2s ease-in-out;
 
     &:focus-within {
@@ -106,24 +109,25 @@
     }
 
     .leading-icon {
-      font-size: 1.2rem;
+      font-size: 1.05rem;
       color: #6b778c;
-      margin-right: 10px;
+      margin-right: 6px;
+      flex-shrink: 0;
     }
 
     input {
       flex: 1;
+      min-width: 0;
       border: none;
       outline: none;
       background: transparent;
-      font-size: 0.92rem;
+      font-size: 0.85rem;
       color: #172b4d;
 
       &::placeholder {
         color: #97a0af;
       }
 
-      /* Sobrescreve o autofill especificamente com o tom do container */
       &:-webkit-autofill,
       &:-webkit-autofill:hover,
       &:-webkit-autofill:focus {
@@ -141,36 +145,36 @@
       cursor: pointer;
 
       ion-icon {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         color: #6b778c;
       }
     }
   }
 
   .error-text {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: #eb5757;
-    margin-top: 4px;
-    margin-left: 4px;
+    margin-top: 2px;
+    margin-left: 2px;
   }
 }
 
 /* Botão Primário (Criar Conta) */
 .btn-primary {
   width: 100%;
-  height: 48px;
+  height: 42px;
   background: #1d5ab9;
   color: #ffffff;
   border: none;
-  border-radius: 12px;
-  font-size: 0.95rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(29, 90, 185, 0.28);
+  box-shadow: 0 4px 12px rgba(29, 90, 185, 0.22);
   margin-top: 4px;
   transition: opacity 0.2s;
 
@@ -184,23 +188,25 @@
   }
 
   ion-icon {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 }
 
-/* Rodapé */
+/* Rodapé em linha única */
 .footer-section {
-  text-align: center;
-  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 2px;
 
   .footer-text {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #6b778c;
-    margin: 0 0 4px;
   }
 
   .login-link {
-    font-size: 0.92rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: #1d5ab9;
     text-decoration: none;
@@ -211,13 +217,13 @@
   }
 }
 
-/* Ondas Decorativas Inferiores Fixas no Rodapé */
+/* Ondas Decorativas Inferiores */
 .waves-container {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 110px;
+  height: 60px;
   overflow: hidden;
   z-index: 1;
   pointer-events: none;

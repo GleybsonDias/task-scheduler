@@ -52,9 +52,7 @@
 
       <h1 class="app-title">Taskly</h1>
       <h2 class="welcome-title">Criar sua conta</h2>
-      <p class="subtitle">
-        Comece a organizar seu dia<br />com mais facilidade.
-      </p>
+      <p class="subtitle">Comece a organizar seu dia com mais facilidade.</p>
     </header>
 
     <!-- Formulário -->
@@ -63,46 +61,49 @@
       (ngSubmit)="onSubmit()"
       class="form-section"
     >
-      <!-- Campo Nome -->
-      <div class="input-group">
-        <label class="input-label">Nome</label>
-        <div
-          class="custom-input-box"
-          [class.input-error]="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid"
-        >
-          <ion-icon name="person-outline" class="leading-icon"></ion-icon>
-          <input
-            type="text"
-            formControlName="firstName"
-            placeholder="Seu nome"
-            [disabled]="isLoading"
-          />
+      <!-- Linha dupla: Nome e Sobrenome lado a lado para poupar altura -->
+      <div class="name-row">
+        <!-- Campo Nome -->
+        <div class="input-group">
+          <label class="input-label">Nome</label>
+          <div
+            class="custom-input-box"
+            [class.input-error]="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid"
+          >
+            <ion-icon name="person-outline" class="leading-icon"></ion-icon>
+            <input
+              type="text"
+              formControlName="firstName"
+              placeholder="Nome"
+              [disabled]="isLoading"
+            />
+          </div>
+          @if (registerForm.get('firstName')?.touched &&
+          registerForm.get('firstName')?.invalid) {
+          <span class="error-text">Obrigatório.</span>
+          }
         </div>
-        @if (registerForm.get('firstName')?.touched &&
-        registerForm.get('firstName')?.invalid) {
-        <span class="error-text">O nome é obrigatório.</span>
-        }
-      </div>
 
-      <!-- Campo Sobrenome -->
-      <div class="input-group">
-        <label class="input-label">Sobrenome</label>
-        <div
-          class="custom-input-box"
-          [class.input-error]="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid"
-        >
-          <ion-icon name="person-outline" class="leading-icon"></ion-icon>
-          <input
-            type="text"
-            formControlName="lastName"
-            placeholder="Seu sobrenome"
-            [disabled]="isLoading"
-          />
+        <!-- Campo Sobrenome -->
+        <div class="input-group">
+          <label class="input-label">Sobrenome</label>
+          <div
+            class="custom-input-box"
+            [class.input-error]="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid"
+          >
+            <ion-icon name="person-outline" class="leading-icon"></ion-icon>
+            <input
+              type="text"
+              formControlName="lastName"
+              placeholder="Sobrenome"
+              [disabled]="isLoading"
+            />
+          </div>
+          @if (registerForm.get('lastName')?.touched &&
+          registerForm.get('lastName')?.invalid) {
+          <span class="error-text">Obrigatório.</span>
+          }
         </div>
-        @if (registerForm.get('lastName')?.touched &&
-        registerForm.get('lastName')?.invalid) {
-        <span class="error-text">O sobrenome é obrigatório.</span>
-        }
       </div>
 
       <!-- Campo E-mail -->
@@ -209,9 +210,9 @@
         }
       </button>
 
-      <!-- Rodapé com Link Entrar -->
+      <!-- Rodapé com Link Entrar numa única linha -->
       <div class="footer-section">
-        <p class="footer-text">Já possui uma conta?</p>
+        <span class="footer-text">Já possui uma conta?</span>
         <a routerLink="/login" class="login-link">Entrar</a>
       </div>
     </form>

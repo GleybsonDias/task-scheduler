@@ -1,16 +1,16 @@
 .agenda-content {
   --background: #f4f6fa;
-  --overflow: hidden; /* Trava a rolagem da tela inteira */
+  /* Removido o --overflow: hidden para permitir o scroll nativo de toda a tela */
 }
 
 .agenda-wrapper {
   max-width: 440px;
-  height: 100%;
+  min-height: 100%; /* Mudado de height: 100% para min-height. A tela agora estica! */
   margin: 0 auto;
-  padding: 16px 20px 0;
+  padding: 16px 20px 40px; /* Ajustado para dar um respiro no final da lista */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* Removido o overflow: hidden */
   box-sizing: border-box;
 }
 
@@ -85,15 +85,16 @@
   }
 }
 
-/* 3. Card do Calendário (Fixo) */
+/* 3. Card do Calendário */
 .calendar-card {
   flex-shrink: 0;
   background: #ffffff;
   border: 1px solid #eef2f6;
   border-radius: 22px;
-  padding: 14px 14px 10px;
+  /* Reduzi ligeiramente o padding interno para poupar espaço em ecrãs muito pequenos */
+  padding: 12px 10px 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 
   .calendar-controls {
     display: flex;
@@ -212,10 +213,9 @@
   }
 }
 
-/* 4. Secção das Tarefas Diárias (Container Flexível com Rolagem Interna) */
+/* 4. Secção das Tarefas Diárias */
 .tasks-section {
   flex: 1;
-  min-height: 0; /* Essencial para o Flexbox permitir rolagem no filho */
   display: flex;
   flex-direction: column;
 
@@ -238,20 +238,10 @@
   }
 
   .tasks-list {
-    flex: 1;
-    overflow-y: auto;
+    /* Como a tela inteira agora rola, esta div apenas cresce para baixo com os itens */
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 100px; /* Espaço inferior para não ficar atrás da barra de abas */
-    padding-right: 2px;
-
-    /* Oculta barra de rolagem visual mantendo o scroll funcional */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 }
 
@@ -367,7 +357,6 @@
     }
   }
 
-  /* Estilização para tarefa com status COMPLETED */
   &.task-completed {
     opacity: 0.75;
     background: #fcfdfe;
